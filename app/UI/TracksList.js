@@ -1,10 +1,15 @@
 const inquirer = require("inquirer");
 
-module.exports = class List{
-    constructor(message, resultName, choices) {
+module.exports = class TracksList{
+    constructor(message, resultName, tracks) {
         this.message = message;
         this.resultName = resultName;
-        this.choices = choices;
+        this.tracks = tracks.map(track => {
+            return {
+                name: track.title,
+                value: track.id
+            }
+        });
     }
 
     show() {
@@ -12,7 +17,7 @@ module.exports = class List{
             type: "list",
             name: this.resultName,
             message: this.message,
-            choices: this.choices,
+            choices: this.tracks,
 
         }], "Gimme music");
     }
