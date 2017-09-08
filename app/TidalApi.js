@@ -23,7 +23,7 @@ module.exports = class TidalApi extends Api {
     getTrackURL(trackId) {
         return new Promise((resolve, reject) => {
             this.getStreamURL({id: trackId}, (trackData) => {
-                resolve(trackData.url);
+                resolve("rtmp://" + trackData.url);
             });
         });
     };

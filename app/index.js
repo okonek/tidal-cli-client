@@ -2,28 +2,22 @@ const TidalApi = require("./TidalApi");
 const Track = require("./Track");
 const Player = require("./Player");
 const TracksList = require("./UI/TracksList");
-const Prompt = require("prompt");
+const Prompt = require("./UI/Prompt");
 const config = require("../config");
 
-let player = new Player(config);
+let player = new Player();
 
-process.on("exit", () => {
+const cleanup = (exit = false) => {
     player.stop();
-});
-
-const tidalApi = new TidalApi();
-
-const askForInput = (message) => {
-    if(!message) {
-        throw new Error("Message can't be null");
+    if(exit) {
+        process.exit();
     }
+};
+process.on("exit", cleanup.bind(null, false));
+process.on("SIGINT", cleanup.bind(null, true));
+process.on("uncaughtException", cleanup.bind(null, true));
 
-    return new Promise((resolve) => {
-        Prompt.get([message], (error, result) => {
-            resolve(result[message]);
-        });
-    });
-}; 
+const tidalApi = new TidalApi(config);
 
 const getTracksList = async (trackName) => {
     let tracks = await tidalApi.searchForTrack(trackName);
@@ -31,13 +25,14 @@ const getTracksList = async (trackName) => {
 };
 
 const start = async () => {
-    let trackName = await askForInput("track");
+    let trackNamePrompt = new Prompt("Enter track name:", "trackName");
+    let trackName = (await trackNamePrompt.show()).trackName;
     let trackList = await getTracksList(trackName);
     
     let trackId = (await trackList.show()).id;
 
     let streamURL = await tidalApi.getTrackURL(trackId);
-    let track = new Track("rtmp://" + streamURL);
+    let track = new Track(streamURL);
 
     player.play(track);
 };

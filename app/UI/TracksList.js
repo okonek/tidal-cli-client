@@ -13,12 +13,12 @@ module.exports = class TracksList{
     }
 
     show() {
-        return inquirer.prompt([{
+        return inquirer.prompt({
             type: "list",
             name: this.resultName,
             message: this.message,
             choices: this.tracks,
 
-        }], "Gimme music");
+        });
     }
 }

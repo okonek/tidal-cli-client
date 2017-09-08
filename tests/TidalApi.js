@@ -19,7 +19,14 @@ describe("Api for Tidal music", () => {
                 break;
             }
         }
-        assert(!isAnyTrackNull, "one or more track objects are null");
+        assert(isAnyTrackNull === false, "one or more track objects are null");
+    });
+
+    it("get track URL", async () => {
+        let trackURL = await tidalApi.getTrackURL(7909724);
+
+        assert(trackURL, "track URL cant be null");
+        assert(trackURL.substring(0, 7) === "rtmp://", "track URL must start with rtmp://");
     });
 
 });
