@@ -6,7 +6,12 @@ const TidalApi = require("../app/TidalApi");
 const config = require("../config");
 
 describe("Api for Tidal music", () => {
-    let tidalApi = new TidalApi(config);
+    let tidalApi = new TidalApi({
+        username: process.env.TIDAL_USERNAME,
+        password: process.env.TIDAL_PASSWORD,
+        token: process.env.TIDAL_TOKEN,
+        quality: "HIGH"
+    });
 
     it("search for track", async () => {
         let tracks = await tidalApi.searchForTrack("Pigs Pink Floyd");
