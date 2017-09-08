@@ -1,4 +1,8 @@
 language: node_js
+
 before_install: 
 - sudo apt-get update -qq
 - sudo apt-get install mpv
+
+script:
+- npm run test
