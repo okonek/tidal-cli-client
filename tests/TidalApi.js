@@ -3,7 +3,6 @@ const mocha = require("mocha");
 const expect = chai.expect;
 const assert = chai.assert;
 const TidalApi = require("../app/TidalApi");
-const config = require("../config");
 
 describe("Api for Tidal music", () => {
     let tidalApi = new TidalApi({
