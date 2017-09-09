@@ -3,6 +3,7 @@ const mocha = require("mocha");
 const expect = chai.expect;
 const assert = chai.assert;
 const TidalApi = require("../app/TidalApi");
+const path = require("path");
 
 describe("Api for Tidal music", () => {
     let tidalApi = new TidalApi({
@@ -13,7 +14,7 @@ describe("Api for Tidal music", () => {
     });
 
     it("search for track", async () => {
-        let tracks = await tidalApi.searchForTrack("Pigs Pink Floyd");
+        let tracks = await tidalApi.searchFor("Pigs Pink Floyd", TidalApi.searchTypes().TRACKS);
         assert(tracks.length <= 10, "track list is bigger than 10");
 
         let isAnyTrackNull = false;

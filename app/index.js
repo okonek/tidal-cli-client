@@ -1,7 +1,7 @@
 const TidalApi = require("./TidalApi");
 const Track = require("./Track");
 const Player = require("./Player");
-const TracksList = require("./UI/TracksList");
+const List = require("./UI/List");
 const config = require("../config");
 const Search = require("./Search");
 const KeyboardEvents = require("./KeyboardEvents");
@@ -21,20 +21,16 @@ process.on("uncaughtException", cleanup.bind(null, true));
 
 const tidalApi = new TidalApi(config);
 
-const getTracksList = async (trackName) => {
-    let tracks = await tidalApi.searchForTrack(trackName);
-    return new TracksList("Gimme music", "id", tracks);
+const search = async (type) => {
+    let searchObject = new Search(tidalApi, type);
+    let objects = await searchObject.ask();
+    let objectsList = new List("Gimme music", objects, type);
+    let selectedObject = await objectsList.show();
+    return selectedObject;
 };
 
 const start = async () => {
-    let searchTrack = new Search(tidalApi, Search.searchTypes().TRACK);
-    let tracks = await searchTrack.ask();
-    let trackList = new TracksList("Gimme music", tracks);
-    let selectedTrackId = await trackList.show();
-
-    let streamURL = await tidalApi.getTrackURL(selectedTrackId);
-    let track = new Track(streamURL);
-    player.play(track);
+    let selectedArtist = await search(TidalApi.searchTypes().ARTISTS);
 };
 
 start();
