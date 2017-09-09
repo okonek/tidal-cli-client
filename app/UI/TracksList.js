@@ -1,9 +1,9 @@
 const inquirer = require("inquirer");
 
 module.exports = class TracksList{
-    constructor(message, resultName, tracks) {
+    constructor(message, tracks) {
         this.message = message;
-        this.resultName = resultName;
+        this.resultName = "id";
         this.tracks = tracks.map(track => {
             return {
                 name: track.title,
@@ -13,12 +13,17 @@ module.exports = class TracksList{
     }
 
     show() {
-        return inquirer.prompt({
-            type: "list",
-            name: this.resultName,
-            message: this.message,
-            choices: this.tracks,
-
+        return new Promise((resolve, reject) => {
+            inquirer.prompt({
+                type: "list",
+                name: this.resultName,
+                message: this.message,
+                choices: this.tracks,
+            }).then((result) => {
+                process.stdin.resume();
+                process.stdin.setRawMode(true);
+                resolve(result[this.resultName]);
+            });
         });
     }
 }

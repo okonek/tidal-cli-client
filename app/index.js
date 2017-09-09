@@ -2,10 +2,12 @@ const TidalApi = require("./TidalApi");
 const Track = require("./Track");
 const Player = require("./Player");
 const TracksList = require("./UI/TracksList");
-const Prompt = require("./UI/Prompt");
 const config = require("../config");
+const Search = require("./Search");
+const KeyboardEvents = require("./KeyboardEvents");
 
-let player = new Player();
+let keyboardEvents = new KeyboardEvents();
+let player = new Player(keyboardEvents);
 
 const cleanup = (exit = false) => {
     player.stop();
@@ -25,15 +27,13 @@ const getTracksList = async (trackName) => {
 };
 
 const start = async () => {
-    let trackNamePrompt = new Prompt("Enter track name:", "trackName");
-    let trackName = (await trackNamePrompt.show()).trackName;
-    let trackList = await getTracksList(trackName);
-    
-    let trackId = (await trackList.show()).id;
+    let searchTrack = new Search(tidalApi, Search.searchTypes().TRACK);
+    let tracks = await searchTrack.ask();
+    let trackList = new TracksList("Gimme music", tracks);
+    let selectedTrackId = await trackList.show();
 
-    let streamURL = await tidalApi.getTrackURL(trackId);
+    let streamURL = await tidalApi.getTrackURL(selectedTrackId);
     let track = new Track(streamURL);
-
     player.play(track);
 };
 
