@@ -6,7 +6,7 @@ module.exports = class TidalApi extends Api {
         super(apiOptions);
     }
 
-    static searchTypes() {
+    static get searchTypes() {
         return {
             TRACKS: "tracks",
             ARTISTS: "artists"
@@ -21,9 +21,9 @@ module.exports = class TidalApi extends Api {
         });
     };
 
-    getTrackURL(trackId) {
+    getTrackURL(track) {
         return new Promise((resolve, reject) => {
-            this.getStreamURL({id: trackId}, (trackData) => {
+            this.getStreamURL({id: track.id}, (trackData) => {
                 resolve("rtmp://" + trackData.url);
             });
         });

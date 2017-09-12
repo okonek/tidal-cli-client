@@ -6,11 +6,11 @@ module.exports = class Search {
         let promptInfo = "";
 
         switch(type) {
-            case TidalApi.searchTypes().ARTISTS:
+            case TidalApi.searchTypes.ARTISTS:
                 promptInfo = "Which artist do you wantt???";
                 break;
 
-            case TidalApi.searchTypes().TRACKS:
+            case TidalApi.searchTypes.TRACKS:
                 promptInfo = "Maybe SOYCD??";
                 break;
         }
