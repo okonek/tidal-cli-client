@@ -14,7 +14,7 @@ describe("Api for Tidal music", () => {
     });
 
     it("search for track", async () => {
-        let tracks = await tidalApi.searchFor("Pigs Pink Floyd", TidalApi.searchTypes().TRACKS);
+        let tracks = await tidalApi.searchFor("Pigs Pink Floyd", TidalApi.searchTypes.TRACKS);
         assert(tracks.length <= 10, "track list is bigger than 10");
 
         let isAnyTrackNull = false;
