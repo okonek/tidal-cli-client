@@ -10,7 +10,7 @@ module.exports = class Artist{
 
     updateTracks(tidalApi) {
         return new Promise((resolve, reject) => {
-            tidalApi.getTopTracks({id: this.id, limit: 5}, (tracks) => {
+            tidalApi.getTopTracks({id: this.id, limit: 50}, (tracks) => {
                 this.tracks = tracks.items;
                 let TidalList = require("./UI/TidalList");
                 this.tracksList = new TidalList("Wich one of do you want?", this.tracks, TidalApi.searchTypes.TRACKS);
