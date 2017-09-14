@@ -8,7 +8,9 @@ module.exports = class Player extends MPV{
         keyboardEvents.subscribe((key) => {
             switch(key.name) {
                 case KeyboardEvents.keyboardKeys().SPACE:
-                    this.tooglePause();
+                    if(this.observed.path) {
+                        this.tooglePause();
+                    }
                     break;
             }
         });
@@ -16,6 +18,5 @@ module.exports = class Player extends MPV{
 
     play(track) {
         this.load(track.streamURL);
-        console.log()
     }
 }
