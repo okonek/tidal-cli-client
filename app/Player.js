@@ -6,12 +6,14 @@ module.exports = class Player extends MPV{
         super();
 
         keyboardEvents.subscribe((key) => {
-            switch(key.name) {
-                case KeyboardEvents.keyboardKeys().SPACE:
-                    if(this.observed.path) {
-                        this.tooglePause();
-                    }
-                    break;
+            if(key.ctrl) {
+                switch(key.name) {
+                    case KeyboardEvents.keyboardKeys.S:
+                        if(this.observed.path) {
+                            this.togglePause();
+                        }
+                        break;
+                }
             }
         });
     }

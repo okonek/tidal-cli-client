@@ -9,17 +9,22 @@ module.exports = class List {
     }
 
     show() {
+        this.prompt = inquirer.prompt({
+            type: "list",
+            name: "selection",
+            message: this.message,
+            choices: this.objects,
+        });
         return new Promise((resolve, reject) => {
-            inquirer.prompt({
-                type: "list",
-                name: "selection",
-                message: this.message,
-                choices: this.objects,
-            }).then((result) => {
+            this.prompt.then((result) => {
                 process.stdin.resume();
                 process.stdin.setRawMode(true);
                 resolve(result["selection"]);
             });
         });
+    }
+
+    close() {
+        this.prompt.ui.close();
     }
 }

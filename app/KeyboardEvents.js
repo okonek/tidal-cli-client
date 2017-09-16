@@ -18,13 +18,16 @@ module.exports = class KeyboardEvents extends Observable{
         });
     }
 
-    static keyboardKeys() {
+    static get keyboardKeys() {
         return {
             SPACE: "space",
             RIGHT: "right",
             LEFT: "left",
             UP: "up",
-            DOWN: "down"
+            DOWN: "down",
+            ESCAPE: "escape",
+            P: "p",
+            S: "s"
         };
     }
 }

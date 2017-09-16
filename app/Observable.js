@@ -1,20 +1,45 @@
 class Observable {
 
     constructor() {
-        this.handlers = [];
+        this.subscribers = [];
     }
 
-    subscribe(handler) {
-        this.handlers.push(handler);
+    subscribe(handler, options) {
+        let item = {
+            handler,
+            options
+        };
+        this.subscribers.push(item);
+        return item;
     }
 
-    unsubscribe(handler) {
-        this.handlers = this.handlers.filter(item => item !== handler);
+    unsubscribe(subscriber) {
+        this.subscribers = this.subscribers.filter(item => item !== subscriber);
     }
 
     fire(event) {
-        for(let i = 0; i < this.handlers.length; i++) {
-            this.handlers[i](event);
+        for(let i = 0; i < this.subscribers.length; i++) {
+            
+            if(this.subscribers[i].options) {
+                let areOptionsSameAsEvent = true;
+
+                for(let option in this.subscribers[i].options) {
+                    if(this.subscribers[i].options.hasOwnProperty(option)) {
+                        
+                        if(event[option] !== this.subscribers[i].options[option]) {
+                            areOptionsSameAsEvent = false;
+                        }
+
+                    }
+                }
+
+                if(areOptionsSameAsEvent) {
+                    this.subscribers[i].handler(event);
+                }
+            }
+            else {
+                this.subscribers[i].handler(event);
+            }
         }
     }
 }
