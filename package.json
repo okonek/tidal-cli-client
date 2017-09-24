@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/okonek/tidal-cli-client#readme",
   "dependencies": {
+    "blessed": "^0.1.81",
     "console-png": "^1.2.1",
     "http": "0.0.0",
     "https": "^1.0.0",

@@ -1,25 +1,24 @@
 "use strict";
 
-const Player = require("./Player");
-const KeyboardEvents = require("./KeyboardEvents");
+//const KeyboardEvents = require("./KeyboardEvents");
 const TidalApi = require("./TidalApi");
-
-const config = require("../config");
-
-const tidalApi = new TidalApi(config);
-
-let keyboardEvents = new KeyboardEvents();
-let player = new Player(keyboardEvents);
-
-const TidalList = require("./UI/TidalList");
-const Search = require("./Search");
-const TidalMenu = require("./UI/TidalMenu");
 const Navigation = require("./Navigation");
-const NavigationItem = require("./NavigationItem");
-const navigationItems = require("./NavigationItems");
+const config = require("../config");
+let MainScreen = require("./UI/MainScreen");
+const tidalApi = new TidalApi(config);
+const PlayerPanel = require("./UI/PlayerPanel");
+const SearchPanel = require("./UI/SearchPanel");
+//let keyboardEvents = new KeyboardEvents();
+//let player = new Player(keyboardEvents);
 
-let navigation = new Navigation(navigationItems.getItems(tidalApi, player));
-navigation.show("menu");
+
+let navigation = new Navigation({
+    tidalApi
+});
+let mainScreen = new MainScreen();
+mainScreen.addItem(new PlayerPanel(mainScreen.screen));
+mainScreen.addItem(new SearchPanel(mainScreen.screen));
+navigation.show(mainScreen);
 
 const cleanup = (exit = false) => {
     player.stop();
@@ -30,10 +29,3 @@ const cleanup = (exit = false) => {
 process.on("exit", cleanup.bind(null, false));
 process.on("SIGINT", cleanup.bind(null, true));
 process.on("uncaughtException", cleanup.bind(null, true));
-
-
-keyboardEvents.subscribe(() => {
-    navigation.back();
-}, {
-    name: KeyboardEvents.keyboardKeys.ESCAPE
-});
