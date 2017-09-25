@@ -1,6 +1,6 @@
 "use strict";
 
-//const KeyboardEvents = require("./KeyboardEvents");
+const KeyboardEvents = require("./KeyboardEvents");
 const TidalApi = require("./TidalApi");
 const Navigation = require("./Navigation");
 const config = require("../config");
@@ -8,16 +8,22 @@ let MainScreen = require("./UI/MainScreen");
 const tidalApi = new TidalApi(config);
 const PlayerPanel = require("./UI/PlayerPanel");
 const SearchPanel = require("./UI/SearchPanel");
-//let keyboardEvents = new KeyboardEvents();
-//let player = new Player(keyboardEvents);
+const Player = require("./Player");
+let keyboardEvents = new KeyboardEvents();
+let player = new Player(keyboardEvents);
 
 
 let navigation = new Navigation({
     tidalApi
 });
 let mainScreen = new MainScreen();
-mainScreen.addItem(new PlayerPanel(mainScreen.screen));
-mainScreen.addItem(new SearchPanel(mainScreen.screen));
+let options = {
+    tidalApi,
+    parent: mainScreen.screen,
+    player
+};
+mainScreen.addItem(new PlayerPanel(options));
+mainScreen.addItem(new SearchPanel(options));
 navigation.show(mainScreen);
 
 const cleanup = (exit = false) => {

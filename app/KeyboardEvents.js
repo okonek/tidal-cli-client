@@ -1,12 +1,9 @@
 const Observable = require("./Observable");
 const readline = require("readline");
 
-module.exports = class KeyboardEvents extends Observable{
+module.exports = class KeyboardEvents extends Observable {
     constructor() {
         super();
-
-        readline.emitKeypressEvents(process.stdin);
-        process.stdin.setRawMode(true);
 
         process.stdin.on("keypress", (keyName, key) => {
             if(key.ctrl && key.name === "c") {
@@ -30,4 +27,4 @@ module.exports = class KeyboardEvents extends Observable{
             S: "s"
         };
     }
-}
+};

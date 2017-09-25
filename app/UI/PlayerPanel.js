@@ -1,7 +1,8 @@
 const blessed = require("blessed");
+const Player = require("../Player");
 
 module.exports = class extends blessed.box {
-    constructor() {
+    constructor(options) {
         super({
             width: "100%",
             height: "20%",
@@ -15,11 +16,22 @@ module.exports = class extends blessed.box {
             },
             bottom: 0,
         });
-        this.track = null;
 
-        let trackTitleBox = new blessed.text({
-            content: this.track ? this.track.title : "No track"
+        let trackTitleBox = new blessed.text();
+
+        let updateTrackTitleBox = () => {
+            trackTitleBox.setContent(options.player.currentTrack ? options.player.currentTrack.title : "No track");
+        };
+
+        updateTrackTitleBox();
+
+
+        options.player.playerEvents.subscribe(() => {
+            updateTrackTitleBox();
+        }, {
+            type: Player.eventTypes.TRACK_CHANGED
         });
+
         this.append(trackTitleBox);
     }
 };
