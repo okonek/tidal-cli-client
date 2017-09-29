@@ -5,6 +5,7 @@ module.exports = class extends blessed.list {
 
         super(Object.assign({}, {
             keys: true,
+            mouse: true,
             items
         }, options));
     }

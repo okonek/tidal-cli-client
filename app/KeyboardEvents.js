@@ -6,12 +6,7 @@ module.exports = class KeyboardEvents extends Observable {
         super();
 
         process.stdin.on("keypress", (keyName, key) => {
-            if(key.ctrl && key.name === "c") {
-                process.exit();
-            }
-            else {
-                this.fire(key);
-            }
+            //this.fire(key);
         });
     }
 

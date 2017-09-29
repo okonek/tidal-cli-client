@@ -7,23 +7,29 @@ const config = require("../config");
 let MainScreen = require("./UI/MainScreen");
 const tidalApi = new TidalApi(config);
 const PlayerPanel = require("./UI/PlayerPanel");
-const SearchPanel = require("./UI/SearchPanel");
 const Player = require("./Player");
 let keyboardEvents = new KeyboardEvents();
 let player = new Player(keyboardEvents);
+const fs = require("fs");
 
+process.on('uncaughtException', function (exception, error="f") {
+
+    fs.writeFileSync("./error.log", exception.stack, "utf-8", () => {});
+    console.log(exception); // to see your exception details in the console
+    // if you are on production, maybe you can send the exception details to your
+    // email as well ?
+});
 
 let navigation = new Navigation({
     tidalApi
 });
-let mainScreen = new MainScreen();
 let options = {
     tidalApi,
-    parent: mainScreen.screen,
     player
 };
-mainScreen.addItem(new PlayerPanel(options));
-mainScreen.addItem(new SearchPanel(options));
+let mainScreen = new MainScreen(options);
+
+
 navigation.show(mainScreen);
 
 const cleanup = (exit = false) => {
