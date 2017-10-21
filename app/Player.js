@@ -3,25 +3,20 @@ const KeyboardEvents = require("./KeyboardEvents");
 const Observable = require("./Observable");
 
 module.exports = class Player extends MPV {
-    constructor(keyboardEvents) {
+    constructor() {
         super();
         this.playerEvents = new Observable();
         this.currentTrack = null;
-        keyboardEvents.subscribe((key) => {
-            if(key.ctrl) {
-                switch(key.name) {
-                    case KeyboardEvents.keyboardKeys.S:
-                        if(this.observed.path) {
-                            this.playerEvents.fire({
-                                type: Player.eventTypes.IS_PAUSED,
-                                value: this.observed.pause
-                            });
-                            this.togglePause();
-                        }
-                        break;
-                }
-            }
-        });
+    }
+
+    tooglePlayback() {
+        if(this.observed.path) {
+            this.playerEvents.fire({
+                type: Player.eventTypes.IS_PAUSED,
+                value: this.observed.pause
+            });
+            this.togglePause();
+        }
     }
 
     static get eventTypes() {

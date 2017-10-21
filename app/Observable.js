@@ -1,14 +1,17 @@
+const fs = require("fs");
+
 class Observable {
 
     constructor() {
         this.subscribers = [];
     }
 
-    subscribe(handler, options) {
+    subscribe(handler, options = undefined) {
         let item = {
             handler,
             options
         };
+
         this.subscribers.push(item);
         return item;
     }
@@ -19,13 +22,13 @@ class Observable {
 
     fire(event) {
         for(let i = 0; i < this.subscribers.length; i++) {
-            
+
             if(this.subscribers[i].options) {
                 let areOptionsSameAsEvent = true;
 
                 for(let option in this.subscribers[i].options) {
                     if(this.subscribers[i].options.hasOwnProperty(option)) {
-                        
+
                         if(event[option] !== this.subscribers[i].options[option]) {
                             areOptionsSameAsEvent = false;
                         }
@@ -38,6 +41,7 @@ class Observable {
                 }
             }
             else {
+
                 this.subscribers[i].handler(event);
             }
         }

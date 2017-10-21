@@ -2,7 +2,7 @@ const blessed = require("blessed");
 const Player = require("../Player");
 
 module.exports = class extends blessed.box {
-    constructor(parent, player) {
+    constructor(parent) {
         super({
             width: "100%",
             height: "20%",
@@ -16,23 +16,31 @@ module.exports = class extends blessed.box {
             },
             bottom: 0,
         });
+        this.parent = parent;
+        this.player = new Player();
+        this.setupKeyboardEvents();
 
-        let trackTitleBox = new blessed.text();
+        this.trackTitleBox = new blessed.text();
 
-        let updateTrackTitleBox = () => {
-            trackTitleBox.setContent(player.currentTrack ? player.currentTrack.title : "No track");
-            parent.render();
-        };
+        this.updateTrackTitleBox();
 
-        updateTrackTitleBox();
-
-
-        player.playerEvents.subscribe(() => {
-            updateTrackTitleBox();
+        this.player.playerEvents.subscribe(() => {
+            this.updateTrackTitleBox();
         }, {
             type: Player.eventTypes.TRACK_CHANGED
         });
 
-        this.append(trackTitleBox);
+        this.append(this.trackTitleBox);
+    }
+
+    setupKeyboardEvents() {
+        this.parent.key(["C-s"], () => {
+            this.player.tooglePlayback();
+        });
+    }
+
+    updateTrackTitleBox() {
+        this.trackTitleBox.setContent(this.player.currentTrack ? this.player.currentTrack.title : "No track");
+        this.parent.render();
     }
 };

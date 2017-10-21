@@ -29,7 +29,6 @@ let options = {
 };
 let mainScreen = new MainScreen(options);
 
-
 navigation.show(mainScreen);
 
 const cleanup = (exit = false) => {

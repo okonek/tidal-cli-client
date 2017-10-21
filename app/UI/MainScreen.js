@@ -4,12 +4,26 @@ const TracksList = require("./TracksList");
 const TidalApi = require("../TidalApi");
 const Track = require("../Track");
 const PlayerPanel = require("./PlayerPanel");
+const Player = require("../Player");
+const Artist = require("../Artist");
+const SearchModule = require("./SearchModule");
+const ActivityPanel = require("./ActivityPanel");
+const Observable = require("../Observable");
+const fs = require("fs");
 
-module.exports = class extends NavigationItem {
+module.exports = class MainScreen extends NavigationItem {
+
+    static get eventTypes() {
+        return {
+            PLAY_TRACK: 0,
+            SHOW_ARTIST_PANEL: 1
+        };
+    }
 
     constructor(options) {
         super();
         this.options = options;
+        this.communicationEvents = new Observable();
         this.screen = blessed.screen({
             smartCSR: true,
         });
@@ -18,58 +32,44 @@ module.exports = class extends NavigationItem {
             return process.exit(0);
         });
 
+        this.communicationEvents.subscribe(async (event) => {
+            switch (event.type) {
+                case MainScreen.eventTypes.PLAY_TRACK:
+                    await this.playTrack(event.track);
+                    break;
 
-        this.trackNameSearch = new blessed.Textbox({
-            parent: this.screen
+                case MainScreen.eventTypes.SHOW_ARTIST_PANEL:
+                    this.searchModule.hide();
+                    this.activityPanel.show();
+                    this.screen.render();
+                    this.activityPanel.showArtistPanel(event.artist);
+                    break;
+            }
         });
-        this.screen.append(this.trackNameSearch);
-        this.screen.key([":"], () => {
-            this.searchForTracks();
-        });
 
 
-        this.playerPanel = new PlayerPanel(this.screen, this.options.player);
+        this.playerPanel = new PlayerPanel(this.screen);
         this.screen.append(this.playerPanel);
         this.playerPanel.show();
-    }
 
-    searchForTracks() {
-        this.trackNameSearch.show();
-        this.screen.render();
+        this.searchModule = new SearchModule(this.screen, this.options.tidalApi, this.communicationEvents);
 
-        this.trackNameSearch.readInput(async (error, value) => {
-
-            let tracks = await this.options.tidalApi.searchFor(value, TidalApi.searchTypes.TRACKS);
-            tracks = tracks.map(trackObject => new Track(trackObject));
-
-            let tracksList = this.showTracksList(tracks);
-            tracksList.on("select", async (item, index) => {
-                await this.playTrack(tracks[index]);
-                this.screen.remove(tracksList);
-                this.screen.render();
-            });
-
-            this.trackNameSearch.hide();
-            this.screen.render();
+        this.screen.key([":"], () => {
+            this.searchModule.run();
         });
+
+        this.activityPanel = new ActivityPanel(this.screen);
+        this.screen.append(this.activityPanel);
+        this.activityPanel.show();
+        this.activityPanel.showArtistPanel("");
+        this.screen.render();
     }
 
     async playTrack(track) {
         await track.updateStreamURL(this.options.tidalApi);
-        this.options.player.play(track);
+        this.playerPanel.player.play(track);
     }
 
-    showTracksList(tracks) {
-        let tracksList = new TracksList({
-            parent: this.screen,
-            height: "80%"
-        }, tracks);
-        this.screen.append(tracksList);
 
-        tracksList.focus();
-        tracksList.show();
-
-        return tracksList;
-    }
 
 };

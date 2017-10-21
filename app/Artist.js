@@ -12,11 +12,9 @@ module.exports = class Artist{
         return new Promise((resolve, reject) => {
             tidalApi.getTopTracks({id: this.id, limit: 50}, (tracks) => {
                 this.tracks = tracks.items;
-                let TidalList = require("./UI/TidalList");
-                this.tracksList = new TidalList("Wich one of do you want?", this.tracks, TidalApi.searchTypes.TRACKS);
                 resolve();
             });
         });
     }
     
-}
+};
