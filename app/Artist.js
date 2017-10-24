@@ -1,4 +1,5 @@
 const TidalApi = require("./TidalApi");
+const fs = require("fs");
 
 module.exports = class Artist{
     constructor(artistObject) {
@@ -10,7 +11,7 @@ module.exports = class Artist{
 
     updateTracks(tidalApi) {
         return new Promise((resolve, reject) => {
-            tidalApi.getTopTracks({id: this.id, limit: 50}, (tracks) => {
+            tidalApi.getTopTracks({id: this.id, limit: 10}, (tracks) => {
                 this.tracks = tracks.items;
                 resolve();
             });

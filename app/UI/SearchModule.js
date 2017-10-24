@@ -16,8 +16,10 @@ module.exports = class {
 
         this.searchBox = new blessed.Textbox({
             parent: this.screen,
-            height: "20%",
-            top: "40%"
+            height: "5%",
+            top: "80%",
+            left: "1%",
+            bg: "#535253"
         });
     }
 
@@ -25,7 +27,9 @@ module.exports = class {
         this.resetUI();
 
         this.searchBox.readInput(async (error, value) => {
-            let searchType;
+            let searchType = TidalApi.searchTypes.TRACKS;
+            let searchResults;
+
             switch(value) {
                 case "track":
                     searchType = TidalApi.searchTypes.TRACKS;
@@ -34,8 +38,15 @@ module.exports = class {
                 case "artist":
                     searchType = TidalApi.searchTypes.ARTISTS;
                     break;
+
+                default:
+                    searchResults = await this.tidalApi.searchFor(value, searchType);
+                    this.screen.remove(this.searchBox);
+                    break;
             }
-            let searchResults = await this.searchFor(searchType);
+            if(!searchResults) {
+                searchResults = await this.searchFor(searchType);
+            }
             searchResults = this.prepareTidalObjects(searchType, searchResults);
             this.showSearchResults(searchType, searchResults);
         });

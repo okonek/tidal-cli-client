@@ -39,10 +39,12 @@ module.exports = class MainScreen extends NavigationItem {
                     break;
 
                 case MainScreen.eventTypes.SHOW_ARTIST_PANEL:
-                    this.searchModule.hide();
                     this.activityPanel.show();
+                    this.activityPanel.focus();
                     this.screen.render();
-                    this.activityPanel.showArtistPanel(event.artist);
+                    let artist = event.artist;
+                    await artist.updateTracks(this.options.tidalApi);
+                    this.activityPanel.showArtistPanel(artist);
                     break;
             }
         });
@@ -61,7 +63,6 @@ module.exports = class MainScreen extends NavigationItem {
         this.activityPanel = new ActivityPanel(this.screen);
         this.screen.append(this.activityPanel);
         this.activityPanel.show();
-        this.activityPanel.showArtistPanel("");
         this.screen.render();
     }
 

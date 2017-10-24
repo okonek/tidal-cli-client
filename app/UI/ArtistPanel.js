@@ -6,6 +6,7 @@ module.exports = class extends blessed.box {
             height: "80%",
             parent: screen
         });
-        this.setContent("");
+
+        this.setContent(artist.name);
     }
 };
