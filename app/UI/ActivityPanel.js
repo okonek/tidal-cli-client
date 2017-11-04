@@ -2,16 +2,16 @@ const blessed = require("blessed");
 const ArtistPanel = require("./ArtistPanel");
 
 module.exports = class extends blessed.box {
-    constructor(screen) {
+    constructor(options) {
         super({
-            parent: screen,
+            parent: options.screen,
             height: "80%",
         });
-        this.screen = screen;
+        this.options = options;
     }
 
     showArtistPanel(artist) {
-        this.currentPanel = new ArtistPanel(this, artist);
+        this.currentPanel = new ArtistPanel(this.options, artist);
         this.append(this.currentPanel);
         this.currentPanel.show();
         this.screen.render();

@@ -8,11 +8,11 @@ const ArtistPanel = require("./ArtistPanel");
 const fs = require("fs");
 
 module.exports = class {
-    constructor(screen, tidalApi, communicationEvents) {
-        this.screen = screen;
+    constructor(options) {
+        this.screen = options.screen;
         this.communicationEventTypes = require("./MainScreen").eventTypes;
-        this.communicationEvents = communicationEvents;
-        this.tidalApi = tidalApi;
+        this.communicationEvents = options.communicationEvents;
+        this.tidalApi = options.tidalApi;
 
         this.searchBox = new blessed.Textbox({
             parent: this.screen,

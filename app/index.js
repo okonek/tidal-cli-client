@@ -23,11 +23,8 @@ process.on('uncaughtException', function (exception, error="f") {
 let navigation = new Navigation({
     tidalApi
 });
-let options = {
-    tidalApi,
-    player
-};
-let mainScreen = new MainScreen(options);
+
+let mainScreen = new MainScreen(tidalApi);
 
 navigation.show(mainScreen);
 

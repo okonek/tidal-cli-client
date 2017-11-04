@@ -20,18 +20,63 @@ module.exports = class MainScreen extends NavigationItem {
         };
     }
 
-    constructor(options) {
+    constructor(tidalApi) {
         super();
-        this.options = options;
-        this.communicationEvents = new Observable();
+        this.tidalApi = tidalApi;
         this.screen = blessed.screen({
             smartCSR: true,
         });
 
+        this.getScreenPixelRatio().then((pixelRatio) => {
+            this.pixelRatio = pixelRatio;
+
+            this.communicationEvents = new Observable();
+
+            this.slavesOptions = {
+                screen: this.screen,
+                tidalApi: this.tidalApi,
+                communicationEvents: this.communicationEvents,
+                pixelRatio: this.pixelRatio
+            };
+
+            this.prepareKeybindings();
+            this.startModules();
+            this.startActivityPanel();
+            this.startPlayerPanel();
+            this.prepareCommunicationWithModules();
+
+            this.screen.render();
+        });
+
+    }
+
+    startModules() {
+        this.searchModule = new SearchModule(this.slavesOptions);
+    }
+
+    prepareKeybindings() {
         this.screen.key(["escape", "q", "C-c"], () => {
             return process.exit(0);
         });
 
+        this.screen.key([":"], () => {
+            this.searchModule.run();
+        });
+    }
+
+    startActivityPanel() {
+        this.activityPanel = new ActivityPanel(this.slavesOptions);
+        this.screen.append(this.activityPanel);
+        this.activityPanel.show();
+    }
+
+    startPlayerPanel() {
+        this.playerPanel = new PlayerPanel(this.slavesOptions);
+        this.screen.append(this.playerPanel);
+        this.playerPanel.show();
+    }
+
+    prepareCommunicationWithModules() {
         this.communicationEvents.subscribe(async (event) => {
             switch (event.type) {
                 case MainScreen.eventTypes.PLAY_TRACK:
@@ -43,34 +88,28 @@ module.exports = class MainScreen extends NavigationItem {
                     this.activityPanel.focus();
                     this.screen.render();
                     let artist = event.artist;
-                    await artist.updateTracks(this.options.tidalApi);
+                    await artist.updateArt(this.tidalApi);
+                    await artist.updateTracks(this.tidalApi);
                     this.activityPanel.showArtistPanel(artist);
                     break;
             }
         });
-
-
-        this.playerPanel = new PlayerPanel(this.screen);
-        this.screen.append(this.playerPanel);
-        this.playerPanel.show();
-
-        this.searchModule = new SearchModule(this.screen, this.options.tidalApi, this.communicationEvents);
-
-        this.screen.key([":"], () => {
-            this.searchModule.run();
-        });
-
-        this.activityPanel = new ActivityPanel(this.screen);
-        this.screen.append(this.activityPanel);
-        this.activityPanel.show();
-        this.screen.render();
     }
 
     async playTrack(track) {
-        await track.updateStreamURL(this.options.tidalApi);
+        await track.updateStreamURL(this.tidalApi);
         this.playerPanel.player.play(track);
     }
 
-
+    getScreenPixelRatio() {
+        return new Promise((resolve) => {
+            blessed.image({
+                parent: this.screen,
+                type: "overlay"
+            }).getPixelRatio((error, ratio) => {
+                resolve(ratio);
+            });
+        });
+    }
 
 };

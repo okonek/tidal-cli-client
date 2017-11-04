@@ -32,6 +32,7 @@
     "keypress": "^0.2.1",
     "node-mpv": "^1.3.1",
     "readline": "^1.3.0",
+    "sharp": "^0.18.4",
     "tidalapi": "^0.2.2"
   },
   "devDependencies": {
