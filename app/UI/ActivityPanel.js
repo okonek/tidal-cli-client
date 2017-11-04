@@ -11,9 +11,13 @@ module.exports = class extends blessed.box {
     }
 
     showArtistPanel(artist) {
+        if(this.currentPanel) {
+            this.currentPanel.hide();
+            this.options.screen.render();
+        }
         this.currentPanel = new ArtistPanel(this.options, artist);
         this.append(this.currentPanel);
         this.currentPanel.show();
-        this.screen.render();
+        this.options.screen.render();
     }
 };

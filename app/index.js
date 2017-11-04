@@ -26,7 +26,6 @@ let navigation = new Navigation({
 
 let mainScreen = new MainScreen(tidalApi);
 
-navigation.show(mainScreen);
 
 const cleanup = (exit = false) => {
     player.stop();

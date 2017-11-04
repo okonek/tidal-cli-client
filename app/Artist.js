@@ -1,6 +1,5 @@
 const https = require("https");
 const fs = require("fs");
-const sharp = require("sharp");
 
 module.exports = class Artist {
     constructor(artistObject) {

@@ -1,5 +1,5 @@
 const blessed = require("blessed");
-const sharp = require("sharp");
+const figlet = require("figlet");
 
 module.exports = class extends blessed.box {
     constructor(options, artist) {
@@ -8,22 +8,29 @@ module.exports = class extends blessed.box {
             parent: options.screen
         });
 
-        this.setContent(artist.name);
+        this.artistNameBox = blessed.text({
+            parent: options.screen,
+            content: figlet.textSync(artist.name),
+            left: 0,
+        });
+        options.screen.append(this.artistNameBox);
 
-        let artistImage = blessed.image({
+        this.artistImage = blessed.image({
             parent: options.screen,
             type: 'overlay',
-            left: "center",
-            right: "center",
+            right: 0,
             width: (options.pixelRatio.tw * options.screen.width / 5) / options.pixelRatio.tw,
             height: (options.pixelRatio.tw * options.screen.width / 5) / options.pixelRatio.th,
             file: artist.artSrc,
             search: false
         });
-        options.screen.append(artistImage);
-        artistImage.show();
+        options.screen.append(this.artistImage);
+        this.artistImage.show();
         options.screen.render();
+    }
 
-
+    hide() {
+        this.artistNameBox.hide();
+        this.artistImage.hide();
     }
 };

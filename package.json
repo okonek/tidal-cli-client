@@ -26,13 +26,13 @@
   "dependencies": {
     "blessed": "^0.1.81",
     "console-png": "^1.2.1",
+    "figlet": "^1.2.0",
     "http": "0.0.0",
     "https": "^1.0.0",
     "inquirer": "^3.2.3",
     "keypress": "^0.2.1",
     "node-mpv": "^1.3.1",
     "readline": "^1.3.0",
-    "sharp": "^0.18.4",
     "tidalapi": "^0.2.2"
   },
   "devDependencies": {
