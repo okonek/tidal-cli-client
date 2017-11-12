@@ -1,5 +1,4 @@
 const Observable = require("./Observable");
-const readline = require("readline");
 
 module.exports = class KeyboardEvents extends Observable {
     constructor() {

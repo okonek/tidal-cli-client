@@ -16,14 +16,23 @@ module.exports = class Artist {
 
     updateArt(tidalApi) {
         return new Promise((resolve, reject) => {
+            this.mkdirSync("/tmp/tidal-cli-client");
             this.artURL = tidalApi.getArtURL(this.artId, 750, 750);
-            this.artSrc = "image_cache/" + this.artId + ".jpg";
+            this.artSrc = "/tmp/tidal-cli-client/" + this.artId + ".jpg";
             let artFile = fs.createWriteStream(this.artSrc);
             https.get(this.artURL, response => {
                 response.pipe(artFile);
                 resolve();
             });
         });
+    }
+
+    mkdirSync(dirPath) {
+        try {
+            fs.mkdirSync(dirPath)
+        } catch (err) {
+            if (err.code !== "EEXIST") throw err;
+        }
     }
 
     

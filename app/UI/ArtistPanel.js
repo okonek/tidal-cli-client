@@ -1,5 +1,7 @@
 const blessed = require("blessed");
-const figlet = require("figlet");
+const ASCIIText = require("./ASCIIText");
+const SquareImage = require("./SquareImage");
+const TracksList = require("./TracksList");
 
 module.exports = class extends blessed.box {
     constructor(options, artist) {
@@ -7,26 +9,54 @@ module.exports = class extends blessed.box {
             height: "80%",
             parent: options.screen
         });
+        this.options = options;
+        this.artist = artist;
 
-        this.artistNameBox = blessed.text({
+        this.communicationEventTypes = require("./MainScreen").eventTypes;
+        this.communicationEvents = options.communicationEvents;
+
+        this.artistNameBox = new ASCIIText({
             parent: options.screen,
-            content: figlet.textSync(artist.name),
+            content: artist.name,
+            width: "40%",
             left: 0,
         });
         options.screen.append(this.artistNameBox);
 
-        this.artistImage = blessed.image({
-            parent: options.screen,
-            type: 'overlay',
-            right: 0,
-            width: (options.pixelRatio.tw * options.screen.width / 5) / options.pixelRatio.tw,
-            height: (options.pixelRatio.tw * options.screen.width / 5) / options.pixelRatio.th,
-            file: artist.artSrc,
-            search: false
-        });
+        this.artistImage = new SquareImage(
+            Object.assign({}, options, {
+                parent: options.screen,
+                width: 0.2,
+                file: artist.artSrc,
+                right: 0
+        }));
         options.screen.append(this.artistImage);
         this.artistImage.show();
+
+        this.showTracksList();
+
         options.screen.render();
+    }
+
+    showTracksList() {
+        this.tracksList = new TracksList({
+            parent: this.options.screen,
+            width: "40%",
+            height: "80%",
+            left: "40%",
+        }, this.artist.tracks);
+        this.tracksList.on("select", async (item, index) => {
+            let track = this.artist.tracks[index];
+            this.communicationEvents.fire({
+                type: this.communicationEventTypes.PLAY_TRACK,
+                track: track
+            });
+        });
+        this.options.screen.append(this.tracksList);
+
+        this.tracksList.show();
+        this.tracksList.focus();
+
     }
 
     hide() {

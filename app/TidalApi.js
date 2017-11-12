@@ -41,7 +41,7 @@ module.exports = class TidalApi extends Api {
     getArtistTopTracks(artist) {
         return new Promise((resolve) => {
             this.getTopTracks({id: artist.id, limit: 10}, (tracks) => {
-                resolve(tracks.items.filter((trackObject) => new Track(trackObject)));
+                resolve(tracks.items.map((trackObject) => new Track(trackObject)));
             });
         });
     }
