@@ -1,30 +1,19 @@
-const inquirer = require("inquirer");
-const TidalApi = require("../TidalApi");
+const blessed = require("blessed");
 
-module.exports = class List {
-
-    constructor(message, objects) {
-        this.message = message;
-        this.objects = objects;
+module.exports = class extends blessed.list {
+    constructor(options, items) {
+        options = Object.assign({}, {
+            keys: true,
+            style: {
+                fg: "blue",
+                bg: "default",
+                selected: {
+                    bg: "green"
+                }
+            },
+        }, options);
+        options.items = items;
+        super(options);
+        this.select(0);
     }
-
-    show() {
-        this.prompt = inquirer.prompt({
-            type: "list",
-            name: "selection",
-            message: this.message,
-            choices: this.objects,
-        });
-        return new Promise((resolve, reject) => {
-            this.prompt.then((result) => {
-                process.stdin.resume();
-                process.stdin.setRawMode(true);
-                resolve(result["selection"]);
-            });
-        });
-    }
-
-    close() {
-        this.prompt.ui.close();
-    }
-}
+};

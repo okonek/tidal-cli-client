@@ -1,13 +1,5 @@
-module.exports = class NavigationItem {
-    constructor(onShow, onKill) {
-        this.onShow = onShow;
-    }
+module.exports = class {
+    constructor() {
 
-    show(navigation, options) {
-        return this.onShow(navigation, options);
     }
-
-    kill() {
-        return this.onKill();
-    }
-}
+};

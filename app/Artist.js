@@ -1,22 +1,39 @@
-const TidalApi = require("./TidalApi");
+const https = require("https");
+const fs = require("fs");
 
-module.exports = class Artist{
+module.exports = class Artist {
     constructor(artistObject) {
         this.id = artistObject.id;
         this.name = artistObject.name;
         this.tracks = [];
-        this.tracksList = null;
+        this.artistObject = artistObject;
+        this.artId = artistObject.picture;
     }
 
-    updateTracks(tidalApi) {
+    async updateTracks(tidalApi) {
+        this.tracks = await tidalApi.getArtistTopTracks(this);
+    }
+
+    updateArt(tidalApi) {
         return new Promise((resolve, reject) => {
-            tidalApi.getTopTracks({id: this.id, limit: 50}, (tracks) => {
-                this.tracks = tracks.items;
-                let TidalList = require("./UI/TidalList");
-                this.tracksList = new TidalList("Wich one of do you want?", this.tracks, TidalApi.searchTypes.TRACKS);
+            this.mkdirSync("/tmp/tidal-cli-client");
+            this.artURL = tidalApi.getArtURL(this.artId, 750, 750);
+            this.artSrc = "/tmp/tidal-cli-client/" + this.artId + ".jpg";
+            let artFile = fs.createWriteStream(this.artSrc);
+            https.get(this.artURL, response => {
+                response.pipe(artFile);
                 resolve();
             });
         });
     }
+
+    mkdirSync(dirPath) {
+        try {
+            fs.mkdirSync(dirPath)
+        } catch (err) {
+            if (err.code !== "EEXIST") throw err;
+        }
+    }
+
     
-}
+};

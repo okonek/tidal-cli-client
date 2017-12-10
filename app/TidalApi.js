@@ -1,5 +1,5 @@
 const Api = require("tidalapi");
-
+const Track = require("./Track");
 
 module.exports = class TidalApi extends Api {
     constructor(apiOptions) {
@@ -14,9 +14,18 @@ module.exports = class TidalApi extends Api {
     }
 
     searchFor(query, type) {
+        if(type instanceof Array) {
+            type = type.toString();
+        }
+
         return new Promise((resolve, reject) => {
             this.search({ type: type, query, limit: 50}, (result) => {
-                resolve(result[type].items);
+                if(result[type]) {
+                    resolve(result[type].items);
+                }
+                else {
+                    reject(result);
+                }
             });
         });
     };
@@ -28,4 +37,12 @@ module.exports = class TidalApi extends Api {
             });
         });
     };
-}
+
+    getArtistTopTracks(artist) {
+        return new Promise((resolve) => {
+            this.getTopTracks({id: artist.id, limit: 10}, (tracks) => {
+                resolve(tracks.items.map((trackObject) => new Track(trackObject)));
+            });
+        });
+    }
+};

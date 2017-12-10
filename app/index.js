@@ -1,25 +1,32 @@
+#!/usr/bin/env node
 "use strict";
 
-const Player = require("./Player");
 const KeyboardEvents = require("./KeyboardEvents");
 const TidalApi = require("./TidalApi");
-
+const Navigation = require("./Navigation");
 const config = require("../config");
-
+let MainScreen = require("./UI/MainScreen");
 const tidalApi = new TidalApi(config);
-
+const PlayerPanel = require("./UI/PlayerPanel");
+const Player = require("./Player");
 let keyboardEvents = new KeyboardEvents();
 let player = new Player(keyboardEvents);
+const fs = require("fs");
 
-const TidalList = require("./UI/TidalList");
-const Search = require("./Search");
-const TidalMenu = require("./UI/TidalMenu");
-const Navigation = require("./Navigation");
-const NavigationItem = require("./NavigationItem");
-const navigationItems = require("./NavigationItems");
+process.on('uncaughtException', function (exception, error="f") {
 
-let navigation = new Navigation(navigationItems.getItems(tidalApi, player));
-navigation.show("menu");
+    fs.writeFileSync("./error.log", exception.stack, "utf-8", () => {});
+    console.log(exception); // to see your exception details in the console
+    // if you are on production, maybe you can send the exception details to your
+    // email as well ?
+});
+
+let navigation = new Navigation({
+    tidalApi
+});
+
+let mainScreen = new MainScreen(tidalApi);
+
 
 const cleanup = (exit = false) => {
     player.stop();
@@ -30,10 +37,3 @@ const cleanup = (exit = false) => {
 process.on("exit", cleanup.bind(null, false));
 process.on("SIGINT", cleanup.bind(null, true));
 process.on("uncaughtException", cleanup.bind(null, true));
-
-
-keyboardEvents.subscribe(() => {
-    navigation.back();
-}, {
-    name: KeyboardEvents.keyboardKeys.ESCAPE
-});
