@@ -9,14 +9,15 @@ const Artist = require("../Artist");
 const SearchModule = require("./SearchModule");
 const ActivityPanel = require("./ActivityPanel");
 const Observable = require("../Observable");
-const fs = require("fs");
 
 module.exports = class MainScreen extends NavigationItem {
 
     static get eventTypes() {
         return {
             PLAY_TRACK: 0,
-            SHOW_ARTIST_PANEL: 1
+            SHOW_ARTIST_PANEL: 1,
+            HIDE_CURRENT_PANEL: 2,
+            SHOW_CURRENT_PANEL: 3
         };
     }
 
@@ -86,11 +87,23 @@ module.exports = class MainScreen extends NavigationItem {
                 case MainScreen.eventTypes.SHOW_ARTIST_PANEL:
                     this.activityPanel.show();
                     this.activityPanel.focus();
-                    this.screen.render();
                     let artist = event.artist;
                     await artist.updateArt(this.tidalApi);
                     await artist.updateTracks(this.tidalApi);
-                    this.activityPanel.showArtistPanel(artist);
+                    this.activityPanel.showPanel(ActivityPanel.panels.ARTIST_PANEL, {artist});
+                    this.screen.render();
+                    break;
+
+                case MainScreen.eventTypes.HIDE_CURRENT_PANEL:
+                    this.activityPanel.hideCurrentPanel();
+                    this.screen.render();
+                    break;
+
+                case MainScreen.eventTypes.SHOW_CURRENT_PANEL:
+                    this.activityPanel.show();
+                    this.activityPanel.focus();
+                    this.activityPanel.showCurrentPanel();
+                    this.screen.render();
                     break;
             }
         });

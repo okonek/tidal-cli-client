@@ -90,6 +90,7 @@ module.exports = class {
     showSearchResults(searchType, elements) {
         this.searchResultsList = this.getList(searchType, elements);
 
+
         this.screen.append(this.searchResultsList);
 
         this.searchResultsList.focus();
@@ -102,6 +103,14 @@ module.exports = class {
             this.screen.remove(this.searchResultsList);
             this.searchResultsList = null;
             this.screen.render();
+
+            this.communicationEvents.fire({
+                type: this.communicationEventTypes.SHOW_CURRENT_PANEL,
+            });
+        });
+
+        this.communicationEvents.fire({
+            type: this.communicationEventTypes.HIDE_CURRENT_PANEL,
         });
 
     }
