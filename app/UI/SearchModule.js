@@ -6,12 +6,14 @@ const Artist = require("../Artist");
 const Track = require("../Track");
 const ArtistPanel = require("./ArtistPanel");
 const fs = require("fs");
+const robotjs = require("robotjs");
 
 module.exports = class {
     constructor(options) {
         this.screen = options.screen;
         this.communicationEventTypes = require("./MainScreen").eventTypes;
         this.communicationEvents = options.communicationEvents;
+        this.listSelectEvent = this.communicationEventTypes.PLAY_TRACK;
         this.tidalApi = options.tidalApi;
 
         this.searchBox = new blessed.Textbox({
@@ -134,11 +136,17 @@ module.exports = class {
 
         tracksList.on("select", async (item, index) => {
             let track = tracks[index];
+
             this.communicationEvents.fire({
-                type: this.communicationEventTypes.PLAY_TRACK,
+                type: this.listSelectEvent,
                 track: track
             });
+            this.listSelectEvent = this.communicationEventTypes.PLAY_TRACK;
+        });
 
+        tracksList.key(["n"], () => {
+            this.listSelectEvent = this.communicationEventTypes.ADD_TRACK_TO_QUEUE;
+            robotjs.keyTap("enter");
         });
         return tracksList;
     }

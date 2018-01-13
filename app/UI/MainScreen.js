@@ -9,15 +9,17 @@ const Artist = require("../Artist");
 const SearchModule = require("./SearchModule");
 const ActivityPanel = require("./ActivityPanel");
 const Observable = require("../Observable");
+const fs = require("fs");
 
 module.exports = class MainScreen extends NavigationItem {
 
     static get eventTypes() {
         return {
             PLAY_TRACK: 0,
-            SHOW_ARTIST_PANEL: 1,
-            HIDE_CURRENT_PANEL: 2,
-            SHOW_CURRENT_PANEL: 3
+            ADD_TRACK_TO_QUEUE: 1,
+            SHOW_ARTIST_PANEL: 2,
+            HIDE_CURRENT_PANEL: 3,
+            SHOW_CURRENT_PANEL: 4
         };
     }
 
@@ -85,6 +87,10 @@ module.exports = class MainScreen extends NavigationItem {
                     await this.playTrack(event.track);
                     break;
 
+                case MainScreen.eventTypes.ADD_TRACK_TO_QUEUE:
+                    await this.addTrackToQueue(event.track);
+                    break;
+
                 case MainScreen.eventTypes.SHOW_ARTIST_PANEL:
                     this.activityPanel.show();
                     this.activityPanel.focus();
@@ -108,6 +114,11 @@ module.exports = class MainScreen extends NavigationItem {
                     break;
             }
         });
+    }
+
+    async addTrackToQueue(track) {
+        await track.updateStreamURL(this.tidalApi);
+        this.playerPanel.player.addTrackToQueue(track);
     }
 
     async playTrack(track) {

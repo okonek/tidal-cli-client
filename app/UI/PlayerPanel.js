@@ -20,17 +20,22 @@ module.exports = class extends blessed.box {
         this.player = new Player();
         this.setupKeyboardEvents();
 
-        this.trackTitleBox = new blessed.text();
+        this.trackTitleBox = blessed.text();
+        this.nextTrackTitleBox = blessed.text({
+            parent: this,
+            left: "50%",
+        });
 
         this.updateTrackTitleBox();
 
-        this.player.playerEvents.subscribe(() => {
-            this.updateTrackTitleBox();
-        }, {
-            type: Player.eventTypes.TRACK_CHANGED
+        this.player.playerEvents.subscribe((event) => {
+            if(event.type === Player.eventTypes.TRACK_CHANGED || event.type === Player.eventTypes.QUEUE_UPDATED) {
+                this.updateTrackTitleBox();
+            }
         });
 
         this.append(this.trackTitleBox);
+        this.append(this.nextTrackTitleBox);
     }
 
     setupKeyboardEvents() {
@@ -41,6 +46,7 @@ module.exports = class extends blessed.box {
 
     updateTrackTitleBox() {
         this.trackTitleBox.setContent(this.player.currentTrack ? this.player.currentTrack.title : "No track");
+        this.nextTrackTitleBox.setContent(this.player.queue.length > 0 ? "Next: " + this.player.queue[0].title : "No next");
         this.screen.render();
     }
 };
