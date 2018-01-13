@@ -28,10 +28,12 @@ module.exports = class Artist {
     }
 
     mkdirSync(dirPath) {
-        try {
-            fs.mkdirSync(dirPath)
-        } catch (err) {
-            if (err.code !== "EXIST") throw err;
+        if(!fs.existsSync(dirPath)) {
+            try {
+                fs.mkdirSync(dirPath)
+            } catch (err) {
+                if (err.code !== "EEXIST") throw err;
+            }
         }
     }
 
