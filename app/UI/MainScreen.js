@@ -57,6 +57,7 @@ module.exports = class MainScreen extends NavigationItem {
 
     prepareKeybindings() {
         this.screen.key(["escape", "q", "C-c"], () => {
+            this.playerPanel.player.stop();
             return process.exit(0);
         });
 
