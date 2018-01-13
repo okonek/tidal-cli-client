@@ -31,7 +31,7 @@ module.exports = class Artist {
         try {
             fs.mkdirSync(dirPath)
         } catch (err) {
-            if (err.code !== "EEXIST") throw err;
+            if (err.code !== "EXIST") throw err;
         }
     }
 
