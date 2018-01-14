@@ -29,12 +29,8 @@ module.exports = class extends blessed.box {
                 file: this.artist.artSrc,
                 right: 0
         }));
-        this.append(this.artistImage);
 
         this.showTracksList();
-
-        this.render();
-        options.screen.render();
     }
 
     hideImages() {
@@ -51,19 +47,10 @@ module.exports = class extends blessed.box {
             width: "40%",
             height: "100%",
             left: "40%",
+            communicationEvents: this.communicationEvents
         }, this.artist.tracks);
-        this.tracksList.on("select", async (item, index) => {
-            let track = this.artist.tracks[index];
-            this.communicationEvents.fire({
-                type: this.communicationEventTypes.PLAY_TRACK,
-                track: track
-            });
-        });
-        this.append(this.tracksList);
 
-        this.tracksList.show();
         this.tracksList.focus();
-
     }
 
 };

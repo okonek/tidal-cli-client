@@ -44,9 +44,17 @@ module.exports = class extends blessed.box {
         });
     }
 
+    getCurrentTrackTitle() {
+        return this.player.currentTrack ? this.player.currentTrack.title : "No track";
+    }
+
+    getNextTrackTitle() {
+        return this.player.queue.length > 0 ? "Next: " + this.player.queue[0].title : "No next";
+    }
+
     updateTrackTitleBox() {
-        this.trackTitleBox.setContent(this.player.currentTrack ? this.player.currentTrack.title : "No track");
-        this.nextTrackTitleBox.setContent(this.player.queue.length > 0 ? "Next: " + this.player.queue[0].title : "No next");
+        this.trackTitleBox.setContent(this.getCurrentTrackTitle());
+        this.nextTrackTitleBox.setContent(this.getNextTrackTitle());
         this.screen.render();
     }
 };

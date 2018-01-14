@@ -1,6 +1,6 @@
 const blessed = require("blessed");
 const ArtistPanel = require("./ArtistPanel");
-
+const StartPanel = require("./StartPanel");
 
 module.exports = class ActivityPanel extends blessed.box {
     constructor(options) {
@@ -15,7 +15,8 @@ module.exports = class ActivityPanel extends blessed.box {
 
     static get panels() {
         return {
-            ARTIST_PANEL: 0
+            ARTIST_PANEL: 0,
+            START_PANEL: 1
         };
     }
 
@@ -32,16 +33,19 @@ module.exports = class ActivityPanel extends blessed.box {
             case ActivityPanel.panels.ARTIST_PANEL:
                 this.currentPanel = new ArtistPanel(this.currentPanelOptions);
                 break;
-        }
 
-        this.append(this.currentPanel);
-        this.currentPanel.show();
+            case ActivityPanel.panels.START_PANEL:
+                this.currentPanel = new StartPanel(this.currentPanelOptions);
+                break;
+        }
     }
 
     hideCurrentPanel() {
         if(this.currentPanel) {
             this.currentPanel.hide();
-            this.currentPanel.hideImages();
+            if(this.currentPanelIndex === ActivityPanel.panels.ARTIST_PANEL) {
+                this.currentPanel.hideImages();
+            }
         }
     }
 

@@ -130,39 +130,16 @@ module.exports = class {
     }
 
     getTracksList(tracks) {
-        let tracksList = new TracksList({
+        return new TracksList({
+            communicationEvents: this.communicationEvents,
             parent: this.screen,
         }, tracks);
-
-        tracksList.on("select", async (item, index) => {
-            let track = tracks[index];
-
-            this.communicationEvents.fire({
-                type: this.listSelectEvent,
-                track: track
-            });
-            this.listSelectEvent = this.communicationEventTypes.PLAY_TRACK;
-        });
-
-        tracksList.key(["n"], () => {
-            this.listSelectEvent = this.communicationEventTypes.ADD_TRACK_TO_QUEUE;
-            robotjs.keyTap("enter");
-        });
-        return tracksList;
     }
 
     getArtistsList(artists) {
-        let artistsList = new ArtistsList({
+        return new ArtistsList({
             parent: this.screen,
+            communicationEvents: this.communicationEvents
         }, artists);
-
-        artistsList.on("select", (item, index) => {
-            let artist = artists[index];
-            this.communicationEvents.fire({
-                type: this.communicationEventTypes.SHOW_ARTIST_PANEL,
-                artist
-            });
-        });
-        return artistsList;
     }
 };

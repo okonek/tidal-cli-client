@@ -9,6 +9,7 @@ module.exports = class Player extends MPV {
         this.playerEvents = new Observable();
         this.currentTrack = null;
         this.queue = [];
+        this.playing = false;
 
         this.on("started", () => {
             this.currentTrack = this.queue.shift();
@@ -37,8 +38,9 @@ module.exports = class Player extends MPV {
     }
 
     addTrackToQueue(track) {
-        if(this.queue.length === 0) {
+        if(!this.playing) {
             this.play(track);
+
         }
         else {
             this.queue.push(track);
@@ -51,6 +53,7 @@ module.exports = class Player extends MPV {
     }
 
     play(track) {
+        this.playing = true;
         this.queue.unshift(track);
         this.load(track.streamURL);
     }

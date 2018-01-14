@@ -48,6 +48,9 @@ module.exports = class MainScreen extends NavigationItem {
             this.startPlayerPanel();
             this.prepareCommunicationWithModules();
 
+            this.activityPanel.show();
+            this.activityPanel.showPanel(ActivityPanel.panels.START_PANEL, {});
+
             this.screen.render();
         });
 
@@ -93,7 +96,6 @@ module.exports = class MainScreen extends NavigationItem {
 
                 case MainScreen.eventTypes.SHOW_ARTIST_PANEL:
                     this.activityPanel.show();
-                    this.activityPanel.focus();
                     let artist = event.artist;
                     await artist.updateArt(this.tidalApi);
                     await artist.updateTracks(this.tidalApi);
