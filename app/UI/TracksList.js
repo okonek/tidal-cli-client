@@ -1,5 +1,5 @@
 const List = require("./List");
-const robotjs = require("robotjs");
+const keySender = require("node-key-sender");
 const fs = require("fs");
 
 module.exports = class extends List {
@@ -31,7 +31,7 @@ module.exports = class extends List {
 
         this.key(["n"], () => {
             this.listSelectEvent = this.communicationEventTypes.ADD_TRACK_TO_QUEUE;
-            robotjs.keyTap("enter");
+            keySender.sendKey("enter");
         });
     }
 };
