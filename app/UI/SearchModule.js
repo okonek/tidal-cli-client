@@ -6,7 +6,6 @@ const Artist = require("../Artist");
 const Track = require("../Track");
 const ArtistPanel = require("./ArtistPanel");
 const fs = require("fs");
-const robotjs = require("robotjs");
 
 module.exports = class {
     constructor(options) {
