@@ -3,7 +3,7 @@
 
 You can now use Tidal on linux. With your loved CLI. &lt;3
 
-##IMPORTANT DEPENDENCIES
+## IMPORTANT DEPENDENCIES
 You must have MPV and W3M installed.
 
 Install other dependencies with `npm install` and run with `npm run app`. 
