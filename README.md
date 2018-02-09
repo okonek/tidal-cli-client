@@ -3,11 +3,12 @@
 
 You can now use Tidal on linux. With your loved CLI. &lt;3
 
-Install dependencies with `npm install` and run with `npm run app`. 
+##IMPORTANT DEPENDENCIES
+You must have MPV and W3M installed.
 
-You must have MPV installed.
+Install other dependencies with `npm install` and run with `npm run app`. 
 
-Now also available on npm. You can install it using command "sudo npm -g i tidal-cli-client@latest". After installation you can run app from anywhere using command `tidal-cli`.
+You can also install `tidal-cli-client` from npm. Install it using command `sudo npm -g i tidal-cli-client@latest`. After installation you can run app from anywhere using command `tidal-cli`.
 
 ## Usage instructions
 When you open app for the first time you can see a form. Input username (first) and password (second) to the boxes and submit. Then it loads the main app. 
