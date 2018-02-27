@@ -1,7 +1,5 @@
 const MPV = require("node-mpv");
-const KeyboardEvents = require("./KeyboardEvents");
 const Observable = require("./Observable");
-const fs = require("fs");
 
 module.exports = class Player extends MPV {
     constructor() {

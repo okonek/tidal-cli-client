@@ -1,7 +1,6 @@
 const blessed = require("blessed");
 const Input = require("./Input");
 const createConfigFile = require("../CreateConfigFile");
-const fs = require("fs");
 
 module.exports = class {
 
@@ -28,8 +27,9 @@ module.exports = class {
     formSubmit(data) {
         let username = data.username;
         let password = data.password;
+        let quality = data.quality ? "LOSSLESS" : "HIGH";
 
-        createConfigFile(username, password);
+        createConfigFile(username, password, quality);
     }
 
     prepareInputs() {
@@ -44,6 +44,14 @@ module.exports = class {
             top: 4,
             name: "password"
         });
+        this.qualityCheckbox = new blessed.checkbox({
+            parent: this.signinForm,
+            mouse: true,
+            keys: true,
+            name: "quality",
+            top: 6,
+            text: "Lossless quality?"
+        });
     }
 
     prepareButton() {
@@ -55,7 +63,7 @@ module.exports = class {
             name: "submit",
             content: "Submit",
             left: "80%",
-            top: 6,
+            top: 8,
             style: {
                 bg: "blue",
                 focus: {
