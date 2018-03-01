@@ -5,16 +5,17 @@ const assert = chai.assert;
 const TidalApi = require("../app/TidalApi");
 const path = require("path");
 
-describe("Api for Tidal music", () => {
+describe("Api for Tidal music", async () => {
     let tidalApi = new TidalApi({
-        username: process.env.TIDAL_USERNAME,
-        password: process.env.TIDAL_PASSWORD,
-        token: process.env.TIDAL_TOKEN,
+        username: "irrma@o2.pl",
+        password: "w1mpprobny",
+        token: "BI218mwp9ERZ3PFI",
         quality: "HIGH"
     });
 
-    it("search for track", async () => {
-        let tracks = await tidalApi.searchFor("Pigs Pink Floyd", TidalApi.searchTypes.TRACKS);
+    let tracks = await tidalApi.searchFor("Pigs Pink Floyd", TidalApi.searchTypes.TRACKS);
+
+    it("search for track", () => {
         assert(tracks.length <= 10, "track list is bigger than 10");
 
         let isAnyTrackNull = false;
@@ -28,7 +29,7 @@ describe("Api for Tidal music", () => {
     });
 
     it("get track URL", async () => {
-        let trackURL = await tidalApi.getTrackURL(1817);
+        let trackURL = await tidalApi.getTrackURL(tracks[0]);
 
         assert(trackURL, "track URL cant be null");
     });
