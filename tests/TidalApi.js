@@ -28,10 +28,9 @@ describe("Api for Tidal music", () => {
     });
 
     it("get track URL", async () => {
-        let trackURL = await tidalApi.getTrackURL(7909724);
+        let trackURL = await tidalApi.getTrackURL(1817);
 
         assert(trackURL, "track URL cant be null");
-        assert(trackURL.substring(0, 7) === "rtmp://", "track URL must start with rtmp://");
     });
 
 });
