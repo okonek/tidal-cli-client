@@ -13,16 +13,21 @@ You can also install `tidal-cli-client` from npm. Install it using command `sudo
 ## Usage instructions
 When you open app for the first time you can see a form. Input username (first) and password (second) to the boxes and submit. Then it loads the main app. 
 
+The login configuration is kept in your home directory under filename `.tidalConfig.js`. To signin once again you can remove it. And run the app once again.
+
+To close this app simply press escape.
+
 ### Search
 To search for a track, click `:` and enter `track`, then input your query and click enter.
 To search for an artist, you should do the same but instead of `track` use `artist`.
 
-To play a song select it on list. To add it to queue press `n` on it.
+To play a song select it on list using enter (mouse not working yet). To add it to queue press `n` on it.
 
-To close this app simply press escape and to pause playback press `Control-S`.
-All the other parts of using the app are intuitive.
+### Playlists
+To list all of your playlists press `Control-P`. I'll show you a list. Select the playlist you want with enter and it'll show you its details.
 
-The login configuration is kept in your home directory under filename `.tidalConfig.js`. To signin once again you can remove it. And run the app once again.
+### Playback
+To pause the playback press `Control-S`. To start press it again.
 
 ![Signin form in tidal-cli](https://user-images.githubusercontent.com/24360027/34915577-60560934-f929-11e7-80d0-2282680f09c5.png)
 
