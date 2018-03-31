@@ -5,7 +5,6 @@ const TidalApi = require("../TidalApi");
 const Artist = require("../Artist");
 const Track = require("../Track");
 const ArtistPanel = require("./ArtistPanel");
-const fs = require("fs");
 
 module.exports = class {
     constructor(options) {

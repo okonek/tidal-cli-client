@@ -19,7 +19,9 @@ module.exports = class MainScreen extends NavigationItem {
             ADD_TRACK_TO_QUEUE: 1,
             SHOW_ARTIST_PANEL: 2,
             HIDE_CURRENT_PANEL: 3,
-            SHOW_CURRENT_PANEL: 4
+            SHOW_CURRENT_PANEL: 4,
+            SHOW_ALL_PLAYLISTS_PANEL: 5,
+            SHOW_PLAYLIST_PANEL: 6
         };
     }
 
@@ -41,6 +43,7 @@ module.exports = class MainScreen extends NavigationItem {
                 communicationEvents: this.communicationEvents,
                 pixelRatio: this.pixelRatio
             };
+
 
             this.prepareKeybindings();
             this.startModules();
@@ -68,6 +71,12 @@ module.exports = class MainScreen extends NavigationItem {
 
         this.screen.key([":"], () => {
             this.searchModule.run();
+        });
+
+        this.screen.key(["C-p"], () => {
+            this.communicationEvents.fire({
+                type: MainScreen.eventTypes.SHOW_ALL_PLAYLISTS_PANEL
+            });
         });
     }
 
@@ -103,6 +112,21 @@ module.exports = class MainScreen extends NavigationItem {
                     this.screen.render();
                     break;
 
+                case MainScreen.eventTypes.SHOW_PLAYLIST_PANEL:
+                    let playlist = event.playlist;
+                    await playlist.updateArt(this.tidalApi);
+                    await playlist.updatePlaylistTracks(this.tidalApi);
+                    this.activityPanel.show();
+                    this.activityPanel.showPanel(ActivityPanel.panels.PLAYLIST_PANEL, {playlist});
+                    this.screen.render();
+                    break;
+
+                case MainScreen.eventTypes.SHOW_ALL_PLAYLISTS_PANEL:
+                    this.activityPanel.show();
+                    this.activityPanel.showPanel(ActivityPanel.panels.ALL_PLAYLISTS_PANEL);
+                    this.screen.render();
+                    break;
+
                 case MainScreen.eventTypes.HIDE_CURRENT_PANEL:
                     this.activityPanel.hideCurrentPanel();
                     this.screen.render();
@@ -129,12 +153,17 @@ module.exports = class MainScreen extends NavigationItem {
     }
 
     getScreenPixelRatio() {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             blessed.image({
                 parent: this.screen,
                 type: "overlay"
             }).getPixelRatio((error, ratio) => {
-                resolve(ratio);
+                if(error) {
+                    reject(error);
+                }
+                else {
+                    resolve(ratio);
+                }
             });
         });
     }

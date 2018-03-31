@@ -1,6 +1,8 @@
 const blessed = require("blessed");
 const ArtistPanel = require("./ArtistPanel");
+const AllPlaylistsPanel = require("./AllPlaylistsPanel");
 const StartPanel = require("./StartPanel");
+const PlaylistPanel = require("./PlaylistPanel");
 
 module.exports = class ActivityPanel extends blessed.box {
     constructor(options) {
@@ -16,13 +18,15 @@ module.exports = class ActivityPanel extends blessed.box {
     static get panels() {
         return {
             ARTIST_PANEL: 0,
-            START_PANEL: 1
+            START_PANEL: 1,
+            ALL_PLAYLISTS_PANEL: 2,
+            PLAYLIST_PANEL: 3
         };
     }
 
-    showPanel(panelIndex, panelOptions) {
+    showPanel(panelIndex, panelOptions = {}) {
         if(this.currentPanel) {
-            this.currentPanel.hide();
+            this.hideCurrentPanel();
             this.options.screen.render();
         }
 
@@ -34,6 +38,14 @@ module.exports = class ActivityPanel extends blessed.box {
                 this.currentPanel = new ArtistPanel(this.currentPanelOptions);
                 break;
 
+            case ActivityPanel.panels.ALL_PLAYLISTS_PANEL:
+                this.currentPanel = new AllPlaylistsPanel(this.currentPanelOptions);
+                break;
+
+            case ActivityPanel.panels.PLAYLIST_PANEL:
+                this.currentPanel = new PlaylistPanel(this.currentPanelOptions);
+                break;
+
             case ActivityPanel.panels.START_PANEL:
                 this.currentPanel = new StartPanel(this.currentPanelOptions);
                 break;
@@ -43,7 +55,7 @@ module.exports = class ActivityPanel extends blessed.box {
     hideCurrentPanel() {
         if(this.currentPanel) {
             this.currentPanel.hide();
-            if(this.currentPanelIndex === ActivityPanel.panels.ARTIST_PANEL) {
+            if(this.currentPanelIndex === ActivityPanel.panels.ARTIST_PANEL || this.currentPanelIndex === ActivityPanel.panels.PLAYLIST_PANEL) {
                 this.currentPanel.hideImages();
             }
         }

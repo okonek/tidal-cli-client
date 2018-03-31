@@ -5,5 +5,8 @@ module.exports = function () {
     const config = require(process.env.HOME + "/.tidalConfig.js");
 
     const tidalApi = new TidalApi(config);
-    let mainScreen = new MainScreen(tidalApi);
+
+    tidalApi.tryLogin(tidalApi.authData, () => {
+        let mainScreen = new MainScreen(tidalApi);
+    });
 };

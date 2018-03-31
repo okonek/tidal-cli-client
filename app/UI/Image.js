@@ -7,11 +7,11 @@ module.exports = class extends blessed.image {
 
         if(options.width) {
             width = (options.pixelRatio.tw * options.screen.width * options.width) / options.pixelRatio.tw;
-            height = (options.pixelRatio.tw * options.screen.width * options.width) / options.pixelRatio.th;
+            height = (options.pixelRatio.tw * options.screen.width * options.width) / options.pixelRatio.th / options.proportions;
         }
         else if(options.height) {
             width = (options.pixelRatio.th * options.screen.height * options.height) / options.pixelRatio.tw;
-            height = (options.pixelRatio.th * options.screen.height * options.height) / options.pixelRatio.th;
+            height = (options.pixelRatio.th * options.screen.height * options.height) / options.pixelRatio.th / options.proportions;
         }
 
         super(Object.assign({}, options, {

@@ -1,6 +1,5 @@
 const List = require("./List");
 const keySender = require("node-key-sender");
-const fs = require("fs");
 
 module.exports = class extends List {
     constructor(options, tracks) {

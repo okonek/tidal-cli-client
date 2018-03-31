@@ -1,5 +1,7 @@
 const Api = require("tidalapi");
 const Track = require("./Track");
+const fs = require("fs");
+const https = require("https");
 
 module.exports = class TidalApi extends Api {
     constructor(apiOptions) {
@@ -9,7 +11,8 @@ module.exports = class TidalApi extends Api {
     static get searchTypes() {
         return {
             TRACKS: "tracks",
-            ARTISTS: "artists"
+            ARTISTS: "artists",
+            PLAYLISTS: "playlists"
         };
     }
 
@@ -38,11 +41,53 @@ module.exports = class TidalApi extends Api {
         });
     };
 
+    getUserPlaylists(userId) {
+        return new Promise((resolve, reject) => {
+            this.getPlaylists(userId, (result) => {
+                if(result.items && result.items.length > 0) {
+                    resolve(result.items);
+                }
+                reject();
+            });
+        });
+    }
+
+    getTracksFromPlaylist(playlist) {
+        return new Promise((resolve) => {
+           this.getPlaylistTracks({id: playlist.uuid}, (playlistTracks) => {
+               resolve(playlistTracks.items.map((trackObject) => new Track(trackObject)));
+           })
+        });
+    }
+
     getArtistTopTracks(artist) {
         return new Promise((resolve) => {
             this.getTopTracks({id: artist.id, limit: 10}, (tracks) => {
                 resolve(tracks.items.map((trackObject) => new Track(trackObject)));
             });
         });
+    }
+
+    downloadImage(artId, width = 750, height = 750) {
+        return new Promise((resolve, reject) => {
+            this.mkdirSync("/tmp/tidal-cli-client");
+            let artURL = this.getArtURL(artId, width, height);
+            let artSrc = "/tmp/tidal-cli-client/" + artId + ".jpg";
+            let artFile = fs.createWriteStream(artSrc);
+            https.get(artURL, response => {
+                response.pipe(artFile);
+                resolve(artSrc);
+            });
+        });
+    }
+
+    mkdirSync(dirPath) {
+        if(!fs.existsSync(dirPath)) {
+            try {
+                fs.mkdirSync(dirPath)
+            } catch (err) {
+                if (err.code !== "EEXIST") throw err;
+            }
+        }
     }
 };
