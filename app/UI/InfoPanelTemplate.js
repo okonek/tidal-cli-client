@@ -23,6 +23,7 @@ module.exports = class extends blessed.box {
             parent: this,
             content: this.textContent,
             width: "40%",
+            height: 1,
             left: 0,
         });
         this.append(this.nameBox);
@@ -34,7 +35,15 @@ module.exports = class extends blessed.box {
                 file: this.imageSrc,
                 proportions: this.imageProportions,
                 right: 0
-            }));
+            })
+        );
+
+        this.additionalContentBox = new blessed.box({
+            parent: this,
+            width: "40%",
+            left: 0,
+            top: 2,
+        });
 
         this.showTracksList();
     }

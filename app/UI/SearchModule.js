@@ -1,26 +1,17 @@
-const blessed = require("blessed");
 const TracksList = require("./TracksList");
 const ArtistsList = require("./ArtistsList");
 const TidalApi = require("../TidalApi");
 const Artist = require("../Artist");
 const Track = require("../Track");
 const ArtistPanel = require("./ArtistPanel");
+const Album = require("../Album");
+const AlbumsList = require("./AlbumsList");
+const BaseModule = require("./BaseModule");
 
-module.exports = class {
+module.exports = class extends BaseModule {
     constructor(options) {
-        this.screen = options.screen;
-        this.communicationEventTypes = require("./MainScreen").eventTypes;
-        this.communicationEvents = options.communicationEvents;
+        super(options);
         this.listSelectEvent = this.communicationEventTypes.PLAY_TRACK;
-        this.tidalApi = options.tidalApi;
-
-        this.searchBox = new blessed.Textbox({
-            parent: this.screen,
-            height: "5%",
-            top: "80%",
-            left: "1%",
-            bg: "#535253"
-        });
     }
 
     run() {
@@ -39,6 +30,10 @@ module.exports = class {
                     searchType = TidalApi.searchTypes.ARTISTS;
                     break;
 
+                case "album":
+                    searchType = TidalApi.searchTypes.ALBUMS;
+                    break;
+
                 default:
                     searchResults = await this.tidalApi.searchFor(value, searchType);
                     this.screen.remove(this.searchBox);
@@ -50,17 +45,6 @@ module.exports = class {
             searchResults = this.prepareTidalObjects(searchType, searchResults);
             this.showSearchResults(searchType, searchResults);
         });
-    }
-
-    resetUI() {
-        if(this.searchResultsList) {
-            this.searchResultsList.hide();
-        }
-        this.screen.append(this.searchBox);
-        this.searchBox.clearValue();
-        this.searchBox.show();
-        this.searchBox.focus();
-        this.screen.render();
     }
 
     searchFor(type) {
@@ -80,9 +64,15 @@ module.exports = class {
             switch (searchType) {
                 case TidalApi.searchTypes.TRACKS:
                     return new Track(element);
+                    break;
 
                 case TidalApi.searchTypes.ARTISTS:
                     return new Artist(element);
+                    break;
+
+                case TidalApi.searchTypes.ALBUMS:
+                    return new Album(element);
+                    break;
             }
         });
     }
@@ -124,6 +114,10 @@ module.exports = class {
             case TidalApi.searchTypes.ARTISTS:
                 return this.getArtistsList(elements);
                 break;
+
+            case TidalApi.searchTypes.ALBUMS:
+                return this.getAlbumsList(elements);
+                break;
         }
     }
 
@@ -132,6 +126,13 @@ module.exports = class {
             communicationEvents: this.communicationEvents,
             parent: this.screen,
         }, tracks);
+    }
+
+    getAlbumsList(albums) {
+        return new AlbumsList({
+            communicationEvents: this.communicationEvents,
+            parent: this.screen,
+        }, albums);
     }
 
     getArtistsList(artists) {
