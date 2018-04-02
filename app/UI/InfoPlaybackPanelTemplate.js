@@ -5,7 +5,7 @@ module.exports = class extends InfoPanelTemplate {
     constructor(options, textContent, imageSrc, tracks) {
         super(options, textContent, imageSrc, tracks);
 
-        const playButton = blessed.button({
+        this.playButton = blessed.button({
             parent: this.additionalContentBox,
             content: "Play",
             mouse: true,
@@ -23,12 +23,20 @@ module.exports = class extends InfoPanelTemplate {
             }
         });
 
-        playButton.on("press", () => {
+        this.playButton.on("press", () => {
             this.communicationEvents.fire({
                 type: this.communicationEventTypes.PLAY_TRACKS,
                 tracks: [...tracks]
             });
             this.tracksList.focus();
+        });
+
+        this.playButton.key("right", () => {
+            this.tracksList.focus();
+        });
+
+        this.tracksList.key("left", () => {
+            this.playButton.focus();
         });
     }
 };
