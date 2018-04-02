@@ -59,6 +59,8 @@ module.exports = class MainScreen extends NavigationItem {
             this.activityPanel.showPanel(ActivityPanel.panels.START_PANEL, {});
 
             this.screen.render();
+        }).catch((error) => {
+            
         });
 
     }
