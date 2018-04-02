@@ -37,7 +37,7 @@ module.exports = class Player extends MPV {
     }
 
     skipTracks(tracksCount) {
-        if(!tracksCount > this.queue.length) {
+        if(tracksCount <= this.queue.length) {
             let currentTrack;
 
             for(let i = 0; i < tracksCount; i++) {
@@ -76,12 +76,16 @@ module.exports = class Player extends MPV {
     }
 
     play(track) {
+        if(this.playing) {
+            this.pause();
+        }
         this.playing = true;
         this.currentTrack = track;
         this.playerEvents.fire({
             type: Player.eventTypes.TRACK_CHANGED
         });
         track.updateStreamURL(this.tidalApi).then(() => {
+            this.resume();
             this.load(track.streamURL);
         });
     }
