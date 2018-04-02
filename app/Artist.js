@@ -12,7 +12,9 @@ module.exports = class Artist {
     }
 
     async updateArt(tidalApi) {
-        this.artSrc = await tidalApi.downloadImage(this.artId, 750, 500);
+        if(this.artId) {
+            this.artSrc = await tidalApi.downloadImage(this.artId, 750, 500);
+        }
     }
 
 

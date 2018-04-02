@@ -4,7 +4,7 @@ const TracksList = require("./TracksList");
 const imageSize = require("image-size");
 
 module.exports = class extends blessed.box {
-    constructor(options, textContent, imageSrc, tracks) {
+    constructor(options, textContent, imageSrc = __dirname + "/../static/defaultArtistImage.jpg", tracks) {
         super({
             parent: options.parent,
         });
