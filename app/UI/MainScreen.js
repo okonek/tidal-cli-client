@@ -9,19 +9,23 @@ const Artist = require("../Artist");
 const SearchModule = require("./SearchModule");
 const ActivityPanel = require("./ActivityPanel");
 const Observable = require("../Observable");
-const fs = require("fs");
+const ShortcutsModule = require("./ShortcutsModule");
+const SkipTracksModule = require("./SkipTracksModule");
 
 module.exports = class MainScreen extends NavigationItem {
 
     static get eventTypes() {
         return {
-            PLAY_TRACK: 0,
-            ADD_TRACK_TO_QUEUE: 1,
+            PLAY_TRACKS: 0,
+            ADD_TRACKS_TO_QUEUE: 1,
             SHOW_ARTIST_PANEL: 2,
             HIDE_CURRENT_PANEL: 3,
             SHOW_CURRENT_PANEL: 4,
             SHOW_ALL_PLAYLISTS_PANEL: 5,
-            SHOW_PLAYLIST_PANEL: 6
+            SHOW_PLAYLIST_PANEL: 6,
+            SHOW_ALBUM_PANEL: 7,
+            SKIP_TRACKS: 8,
+            PLAY_TRACKS_NEXT: 9
         };
     }
 
@@ -61,6 +65,11 @@ module.exports = class MainScreen extends NavigationItem {
 
     startModules() {
         this.searchModule = new SearchModule(this.slavesOptions);
+        this.skipTracksModule = new SkipTracksModule(this.slavesOptions);
+        this.shortcutsModule = new ShortcutsModule(this.slavesOptions, {
+            searchModule: this.searchModule,
+            skipTracksModule: this.skipTracksModule
+        });
     }
 
     prepareKeybindings() {
@@ -70,7 +79,7 @@ module.exports = class MainScreen extends NavigationItem {
         });
 
         this.screen.key([":"], () => {
-            this.searchModule.run();
+            this.shortcutsModule.run();
         });
 
         this.screen.key(["C-p"], () => {
@@ -95,12 +104,20 @@ module.exports = class MainScreen extends NavigationItem {
     prepareCommunicationWithModules() {
         this.communicationEvents.subscribe(async (event) => {
             switch (event.type) {
-                case MainScreen.eventTypes.PLAY_TRACK:
-                    await this.playTrack(event.track);
+                case MainScreen.eventTypes.PLAY_TRACKS:
+                    this.playTracks(event.tracks);
                     break;
 
-                case MainScreen.eventTypes.ADD_TRACK_TO_QUEUE:
-                    await this.addTrackToQueue(event.track);
+                case MainScreen.eventTypes.ADD_TRACKS_TO_QUEUE:
+                    this.addTracksToQueue(event.tracks);
+                    break;
+
+                case MainScreen.eventTypes.PLAY_TRACKS_NEXT:
+                    this.playTracksNext(event.tracks);
+                    break;
+
+                case MainScreen.eventTypes.SKIP_TRACKS:
+                    this.playerPanel.player.skipTracks(event.tracksCount);
                     break;
 
                 case MainScreen.eventTypes.SHOW_ARTIST_PANEL:
@@ -109,6 +126,15 @@ module.exports = class MainScreen extends NavigationItem {
                     await artist.updateArt(this.tidalApi);
                     await artist.updateTracks(this.tidalApi);
                     this.activityPanel.showPanel(ActivityPanel.panels.ARTIST_PANEL, {artist});
+                    this.screen.render();
+                    break;
+
+                case MainScreen.eventTypes.SHOW_ALBUM_PANEL:
+                    this.activityPanel.show();
+                    let album = event.album;
+                    await album.updateCoverArt(this.tidalApi);
+                    await album.updateTracks(this.tidalApi);
+                    this.activityPanel.showPanel(ActivityPanel.panels.ALBUM_PANEL, {album});
                     this.screen.render();
                     break;
 
@@ -142,14 +168,25 @@ module.exports = class MainScreen extends NavigationItem {
         });
     }
 
-    async addTrackToQueue(track) {
-        await track.updateStreamURL(this.tidalApi);
-        this.playerPanel.player.addTrackToQueue(track);
+    addTracksToQueue(tracks) {
+        for(let i = 0; i < tracks.length; i++) {
+            let track = tracks[i];
+            this.playerPanel.player.addTrackToQueue(track);
+        }
     }
 
-    async playTrack(track) {
-        await track.updateStreamURL(this.tidalApi);
+    playTracksNext(tracks) {
+        for(let i = tracks.length - 1; i >= 0; i--) {
+            let track = tracks[i];
+            this.playerPanel.player.playTrackNext(track);
+        }
+    }
+
+    playTracks(tracks) {
+        let track = tracks.shift();
         this.playerPanel.player.play(track);
+
+        this.playTracksNext(tracks);
     }
 
     getScreenPixelRatio() {

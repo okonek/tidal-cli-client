@@ -15,7 +15,7 @@ module.exports = class extends List {
 
         this.communicationEventTypes = require("./MainScreen").eventTypes;
         this.communicationEvents = options.communicationEvents;
-        this.listSelectEvent = this.communicationEventTypes.PLAY_TRACK;
+        this.listSelectEvent = this.communicationEventTypes.PLAY_TRACKS;
 
 
         this.on("select", async (item, index) => {
@@ -23,13 +23,18 @@ module.exports = class extends List {
 
             this.communicationEvents.fire({
                 type: this.listSelectEvent,
-                track: track
+                tracks: [track]
             });
-            this.listSelectEvent = this.communicationEventTypes.PLAY_TRACK;
+            this.listSelectEvent = this.communicationEventTypes.PLAY_TRACKS;
         });
 
         this.key(["n"], () => {
-            this.listSelectEvent = this.communicationEventTypes.ADD_TRACK_TO_QUEUE;
+            this.listSelectEvent = this.communicationEventTypes.PLAY_TRACKS_NEXT;
+            keySender.sendKey("enter");
+        });
+
+        this.key(["a"], () => {
+            this.listSelectEvent = this.communicationEventTypes.ADD_TRACKS_TO_QUEUE;
             keySender.sendKey("enter");
         });
     }

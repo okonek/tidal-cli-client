@@ -1,19 +1,20 @@
 const MPV = require("node-mpv");
 const Observable = require("./Observable");
+const fs = require("fs");
 
 module.exports = class Player extends MPV {
-    constructor() {
+    constructor(tidalApi) {
         super();
         this.playerEvents = new Observable();
         this.currentTrack = null;
         this.queue = [];
         this.playing = false;
+        this.tidalApi = tidalApi;
 
-        this.on("started", () => {
-            this.currentTrack = this.queue.shift();
-            this.playerEvents.fire({
-                type: Player.eventTypes.TRACK_CHANGED
-            });
+        this.on("stopped", () => {
+            if(this.queue.length !== 0) {
+                this.play(this.queue.shift());
+            }
         });
     }
 
@@ -35,14 +36,38 @@ module.exports = class Player extends MPV {
         };
     }
 
+    skipTracks(tracksCount) {
+        if(!tracksCount > this.queue.length) {
+            let currentTrack;
+
+            for(let i = 0; i < tracksCount; i++) {
+                currentTrack = this.queue.shift();
+            }
+
+            this.play(currentTrack);
+        }
+
+    }
+
     addTrackToQueue(track) {
         if(!this.playing) {
             this.play(track);
-
         }
         else {
             this.queue.push(track);
-            this.append(track.streamURL);
+            this.playerEvents.fire({
+                type: Player.eventTypes.QUEUE_UPDATED
+            });
+        }
+
+    }
+
+    playTrackNext(track) {
+        if(!this.playing) {
+            this.play(track);
+        }
+        else {
+            this.queue.unshift(track);
             this.playerEvents.fire({
                 type: Player.eventTypes.QUEUE_UPDATED
             });
@@ -52,7 +77,12 @@ module.exports = class Player extends MPV {
 
     play(track) {
         this.playing = true;
-        this.queue.unshift(track);
-        this.load(track.streamURL);
+        this.currentTrack = track;
+        this.playerEvents.fire({
+            type: Player.eventTypes.TRACK_CHANGED
+        });
+        track.updateStreamURL(this.tidalApi).then(() => {
+            this.load(track.streamURL);
+        });
     }
 };

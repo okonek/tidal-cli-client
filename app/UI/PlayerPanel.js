@@ -17,7 +17,7 @@ module.exports = class extends blessed.box {
             bottom: 0,
         });
         this.screen = options.screen;
-        this.player = new Player();
+        this.player = new Player(options.tidalApi);
         this.setupKeyboardEvents();
 
         this.trackTitleBox = blessed.text();

@@ -27,7 +27,7 @@ To play a song select it on list using enter (mouse not working yet). To add it 
 To list all of your playlists press `Control-P`. I'll show you a list. Select the playlist you want with enter and it'll show you its details.
 
 ### Playback
-To pause the playback press `Control-S`. To start press it again.
+To pause the playback press `Control-S`. To start press it again.``
 
 ![Signin form in tidal-cli](https://user-images.githubusercontent.com/24360027/34915577-60560934-f929-11e7-80d0-2282680f09c5.png)
 

@@ -3,6 +3,7 @@ const ArtistPanel = require("./ArtistPanel");
 const AllPlaylistsPanel = require("./AllPlaylistsPanel");
 const StartPanel = require("./StartPanel");
 const PlaylistPanel = require("./PlaylistPanel");
+const AlbumPanel = require("./AlbumPanel");
 
 module.exports = class ActivityPanel extends blessed.box {
     constructor(options) {
@@ -20,7 +21,8 @@ module.exports = class ActivityPanel extends blessed.box {
             ARTIST_PANEL: 0,
             START_PANEL: 1,
             ALL_PLAYLISTS_PANEL: 2,
-            PLAYLIST_PANEL: 3
+            PLAYLIST_PANEL: 3,
+            ALBUM_PANEL: 4
         };
     }
 
@@ -46,6 +48,10 @@ module.exports = class ActivityPanel extends blessed.box {
                 this.currentPanel = new PlaylistPanel(this.currentPanelOptions);
                 break;
 
+            case ActivityPanel.panels.ALBUM_PANEL:
+                this.currentPanel = new AlbumPanel(this.currentPanelOptions);
+                break;
+
             case ActivityPanel.panels.START_PANEL:
                 this.currentPanel = new StartPanel(this.currentPanelOptions);
                 break;
@@ -55,7 +61,7 @@ module.exports = class ActivityPanel extends blessed.box {
     hideCurrentPanel() {
         if(this.currentPanel) {
             this.currentPanel.hide();
-            if(this.currentPanelIndex === ActivityPanel.panels.ARTIST_PANEL || this.currentPanelIndex === ActivityPanel.panels.PLAYLIST_PANEL) {
+            if(this.currentPanelIndex === ActivityPanel.panels.ARTIST_PANEL || this.currentPanelIndex === ActivityPanel.panels.PLAYLIST_PANEL || this.currentPanelIndex === ActivityPanel.panels.ALBUM_PANEL) {
                 this.currentPanel.hideImages();
             }
         }

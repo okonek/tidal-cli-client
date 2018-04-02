@@ -12,7 +12,8 @@ module.exports = class TidalApi extends Api {
         return {
             TRACKS: "tracks",
             ARTISTS: "artists",
-            PLAYLISTS: "playlists"
+            PLAYLISTS: "playlists",
+            ALBUMS: "albums"
         };
     }
 
@@ -57,6 +58,14 @@ module.exports = class TidalApi extends Api {
            this.getPlaylistTracks({id: playlist.uuid}, (playlistTracks) => {
                resolve(playlistTracks.items.map((trackObject) => new Track(trackObject)));
            })
+        });
+    }
+
+    getTracksFromAlbum(album) {
+        return new Promise((resolve) => {
+            this.getAlbumTracks({id: album.id}, (tracks) => {
+                resolve(tracks.items.map((trackObject) => new Track(trackObject)));
+            });
         });
     }
 
