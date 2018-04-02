@@ -18,16 +18,19 @@ The login configuration is kept in your home directory under filename `.tidalCon
 To close this app simply press escape.
 
 ### Search
-To search for a track, click `:` and enter `track`, then input your query and click enter.
-To search for an artist, you should do the same but instead of `track` use `artist`.
-
-To play a song select it on list using enter (mouse not working yet). To add it to queue press `n` on it.
+To search for a track, press `:` and enter `search`. Then type in `track`, `artist` or `album`, depending on what do you want to search for. Press enter again and then input your query and confirm with enter.
 
 ### Playlists
 To list all of your playlists press `Control-P`. I'll show you a list. Select the playlist you want with enter and it'll show you its details.
 
-### Playback
-To pause the playback press `Control-S`. To start press it again.``
+### Playback control
+To pause the playback press `Control-S`. To start press it again. 
+
+To play a song select it on list using enter (mouse not working yet). To add it to the end of the queue press `a` on it, to add it as next to the queue, press `n`.
+
+When playing, if you want to skip to the next song press `:` and then type `next`. If you want to skip for example four songs in the queue, press `:`, type `skip`, press enter and then type the number of songs you want to skip, in this case `4` and press enter.
+
+
 
 ![Signin form in tidal-cli](https://user-images.githubusercontent.com/24360027/34915577-60560934-f929-11e7-80d0-2282680f09c5.png)
 
