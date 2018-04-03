@@ -10,6 +10,11 @@ module.exports = class extends blessed.list {
                 bg: "default",
                 selected: {
                     bg: "green"
+                },
+                focus: {
+                    selected: {
+                        bg: "red"
+                    }
                 }
             },
         }, options);

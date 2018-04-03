@@ -15,6 +15,8 @@ When you open app for the first time you can see a form. Input username (first) 
 
 The login configuration is kept in your home directory under filename `.tidalConfig.js`. To signin once again you can remove it. And run the app once again.
 
+To change focus from one item to another in the artist panel, album panel or playlist panel, press `tab`. The focused item is colored red.
+
 To close this app simply press escape.
 
 ### Search

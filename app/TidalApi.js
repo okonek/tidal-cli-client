@@ -2,6 +2,7 @@ const Api = require("tidalapi");
 const Track = require("./Track");
 const fs = require("fs");
 const https = require("https");
+const Album = require("./Album");
 
 module.exports = class TidalApi extends Api {
     constructor(apiOptions) {
@@ -86,6 +87,14 @@ module.exports = class TidalApi extends Api {
             https.get(artURL, response => {
                 response.pipe(artFile);
                 resolve(artSrc);
+            });
+        });
+    }
+
+    getAlbumsOfArtist(artist) {
+        return new Promise((resolve) => {
+            this.getArtistAlbums({id: artist.id}, (albums) => {
+                resolve(albums.items.map((albumObject) => new Album(albumObject)));
             });
         });
     }

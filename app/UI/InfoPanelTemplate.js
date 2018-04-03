@@ -22,7 +22,7 @@ module.exports = class extends blessed.box {
         this.nameBox = new blessed.text({
             parent: this,
             content: this.textContent,
-            width: "40%",
+            width: "20%",
             height: 1,
             left: 0,
         });
@@ -48,6 +48,22 @@ module.exports = class extends blessed.box {
         this.showTracksList();
     }
 
+    setupFocusingSystem() {
+        for(let i = 0; i < this.focusableItems.length; i++) {
+            this.focusableItems[i].key("tab", () => {
+
+                if(this.focusableItems[i + 1]) {
+                    this.currentFocusedItem = this.focusableItems[i + 1];
+                }
+                else {
+                    this.currentFocusedItem = this.focusableItems[0];
+                }
+
+                this.currentFocusedItem.focus();
+            });
+        }
+    }
+
     hideImages() {
         this.image.hide();
     }
@@ -61,7 +77,7 @@ module.exports = class extends blessed.box {
             parent: this,
             width: "40%",
             height: "100%",
-            left: "40%",
+            left: "30%",
             communicationEvents: this.communicationEvents
         }, this.tracks);
 

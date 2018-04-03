@@ -17,6 +17,10 @@ module.exports = class Artist {
         }
     }
 
+    async updateAlbums(tidalApi) {
+        this.albums = await tidalApi.getAlbumsOfArtist(this);
+    }
+
 
     
 };

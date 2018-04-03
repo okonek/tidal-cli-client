@@ -31,12 +31,5 @@ module.exports = class extends InfoPanelTemplate {
             this.tracksList.focus();
         });
 
-        this.playButton.key("right", () => {
-            this.tracksList.focus();
-        });
-
-        this.tracksList.key("left", () => {
-            this.playButton.focus();
-        });
     }
 };

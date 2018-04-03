@@ -34,6 +34,7 @@ module.exports = class MainScreen extends NavigationItem {
         this.tidalApi = tidalApi;
         this.screen = blessed.screen({
             smartCSR: true,
+            grabKeys: false
         });
 
         this.getScreenPixelRatio().then((pixelRatio) => {
@@ -60,7 +61,7 @@ module.exports = class MainScreen extends NavigationItem {
 
             this.screen.render();
         }).catch((error) => {
-            
+
         });
 
     }
@@ -127,6 +128,7 @@ module.exports = class MainScreen extends NavigationItem {
                     let artist = event.artist;
                     await artist.updateArt(this.tidalApi);
                     await artist.updateTracks(this.tidalApi);
+                    await artist.updateAlbums(this.tidalApi);
                     this.activityPanel.showPanel(ActivityPanel.panels.ARTIST_PANEL, {artist});
                     this.screen.render();
                     break;
