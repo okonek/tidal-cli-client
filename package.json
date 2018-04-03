@@ -1,6 +1,6 @@
 {
   "name": "tidal-cli-client",
-  "version": "1.4",
+  "version": "1.4.0",
   "description": "You can now use Tidal on linux. With your loved CLI. <3",
   "main": "app/index.js",
   "scripts": {
