@@ -3,6 +3,10 @@
 
 You can now use Tidal on linux. With your loved CLI. &lt;3
 
+Available also as download from npm: https://www.npmjs.com/package/tidal-cli-client
+
+You can also install it from AUR: https://aur.archlinux.org/packages/tidal-cli-client/
+
 ## Important dependencies
 You must have MPV and W3M installed. On some systems you'll also need to check, if you have got w3m-img, because it is not always installed directly with w3m.
 
