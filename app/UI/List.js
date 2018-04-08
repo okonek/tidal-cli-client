@@ -2,6 +2,7 @@ const blessed = require("blessed");
 
 module.exports = class extends blessed.list {
     constructor(options, items) {
+
         options = Object.assign({}, {
             keys: true,
             mouse: true,

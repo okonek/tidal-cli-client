@@ -1,8 +1,6 @@
 const blessed = require("blessed");
 const ASCIIText = require("./ASCIIText");
-const SquareImage = require("./Image");
 const TracksList = require("./TracksList");
-const TidalApi = require("../TidalApi");
 const Playlist = require("../Playlist");
 const PlaylistsList = require("./PlaylistsList");
 
@@ -22,9 +20,24 @@ module.exports = class extends blessed.box {
                 return new Playlist(playlistObject);
             });
             this.showPlaylistsList();
+        }).catch(() => {
+            this.showError();
         });
 
 
+    }
+
+    showError() {
+        this.errorObject = blessed.text({
+            parent: this,
+            fg: "red",
+            top: "center",
+            left: "center",
+            content: "You have no playlists"
+        });
+
+        this.errorObject.show();
+        this.options.screen.render();
     }
 
     showPlaylistsList() {
