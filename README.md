@@ -7,17 +7,27 @@ Available also as download from npm: https://www.npmjs.com/package/tidal-cli-cli
 
 You can also install it from AUR: https://aur.archlinux.org/packages/tidal-cli-client/
 
+## Update 1.4.6 notes
+Added advanced config file evaluation and ability to change the default paths of mpv and w3mImg.
+
+**After an update you have to remove the config file and login again, cause now it looks different.**
+
 ## Important dependencies
 You must have MPV and W3M installed. On some systems you'll also need to check, if you have got w3m-img, because it is not always installed directly with w3m.
+
+If the app throws an error that you haven't got them installed, it means it couldn't find the path of them. You can change the default path in which the app looks for dependencies by adding it to the config file in the `~/.tidalConfig.js`.
 
 Install other dependencies with `npm install` and run with `npm run app`. 
 
 You can also install `tidal-cli-client` from npm. Install it using command `sudo npm -g i tidal-cli-client@latest`. After installation you can run app from anywhere using command `tidal-cli`.
 
+## Config file
+The apps config file is located in `~/.tidalConfig.js`. If sign in again again, you have to remove it. 
+
+You can edit your login creditnails here or change the default path of one of the dependencies by simply adding it to the list. 
+
 ## Usage instructions
 When you open app for the first time you can see a form. Input username (first) and password (second) to the boxes and submit. Then it loads the main app. 
-
-The login configuration is kept in your home directory under filename `.tidalConfig.js`. To signin once again you can remove it. And run the app once again.
 
 To change focus from one item to another in the artist panel, album panel or playlist panel, press `tab`. The focused item is colored red.
 
