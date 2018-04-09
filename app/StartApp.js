@@ -1,10 +1,50 @@
 const TidalApi = require("./TidalApi");
 let MainScreen = require("./UI/MainScreen");
+const commandExists = require("command-exists");
+let ReadConfigFile;
 
-module.exports = function () {
-    const config = require(process.env.HOME + "/.tidalConfig.js");
+const commandExistsMultiplePaths = (paths) => {
+    return new Promise(async (resolve, reject) => {
+        let exists = false;
 
-    const tidalApi = new TidalApi(config);
+        for(let index in paths) {
+
+            if(paths.hasOwnProperty(index)) {
+                let path = paths[index];
+
+                await commandExists(path).then(x => exists = true, () => {});
+            }
+        }
+
+        exists ? resolve() : reject();
+    });
+};
+
+const checkDependencies = async () => {
+    let hasMpv, hasW3mImg;
+
+    await commandExistsMultiplePaths(ReadConfigFile.getMpvPaths()).then(result => hasMpv = true, () => hasMpv = false);
+    await commandExistsMultiplePaths(ReadConfigFile.getW3mImgPaths()).then(result => hasW3mImg = true, () => hasW3mImg = false);
+
+    if(!hasMpv) {
+        console.log("You haven't got MPV installed");
+    }
+
+    if(!hasW3mImg) {
+        console.log("You haven't got W3M-IMG installed");
+    }
+
+    if(!hasMpv || !hasW3mImg) {
+        process.exit(1);
+    }
+};
+
+module.exports = async function () {
+    ReadConfigFile = require("./ReadConfigFile");
+
+    await checkDependencies();
+
+    const tidalApi = new TidalApi(ReadConfigFile.getTidalConfig());
 
     tidalApi.tryLogin(tidalApi.authData, () => {
         let mainScreen = new MainScreen(tidalApi);
