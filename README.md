@@ -7,6 +7,16 @@ Available also as download from npm: https://www.npmjs.com/package/tidal-cli-cli
 
 You can also install it from AUR: https://aur.archlinux.org/packages/tidal-cli-client/
 
+## Donations
+If you like this app and you want to help me with the development, you can donate me some Bitcoins, so I can buy more RAM for my Chrome.
+
+I'm young passionated JS developer and this app is a big success for me. I would appreciate every donation.
+
+Here is my Bitcoin address: `1FJqNsijJpctJwsFB4LPhf7KEKNYVb1Mcd`
+
+![My Bitcoin address QR code](https://user-images.githubusercontent.com/24360027/38766930-e4610220-3fc8-11e8-91e5-da55e1ae4811.png)
+
+
 ## Update 1.4.6 notes
 Added advanced config file evaluation and ability to change the default paths of mpv and w3mImg.
 
