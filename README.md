@@ -12,7 +12,7 @@ If you like this app and you want to help me with the development, you can donat
 
 I'm 14 years old passionated JS developer and this app is a big success for me. I would appreciate every donation.
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](YOUR_EMAIL_CODE)
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QMX8LHNPXVL4Y)
 
 Here is my Bitcoin address: `1FJqNsijJpctJwsFB4LPhf7KEKNYVb1Mcd`
 
