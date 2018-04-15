@@ -39,6 +39,14 @@ const checkDependencies = async () => {
     }
 };
 
+const tryLogin = (tidalApi) => {
+    return new Promise((resolve) => {
+        tidalApi.tryLogin(tidalApi.authData, () => {
+            resolve(new MainScreen(tidalApi));
+        });
+    });
+};
+
 module.exports = async function () {
     ReadConfigFile = require("./ReadConfigFile");
 
@@ -46,7 +54,5 @@ module.exports = async function () {
 
     const tidalApi = new TidalApi(ReadConfigFile.getTidalConfig());
 
-    tidalApi.tryLogin(tidalApi.authData, () => {
-        let mainScreen = new MainScreen(tidalApi);
-    });
+    return await tryLogin(tidalApi);
 };

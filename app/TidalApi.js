@@ -65,7 +65,7 @@ module.exports = class TidalApi extends Api {
     getTracksFromAlbum(album) {
         return new Promise((resolve) => {
             this.getAlbumTracks({id: album.id}, (tracks) => {
-                resolve(tracks.items.map((trackObject) => new Track(trackObject)));
+                resolve(tracks.items.map((trackObject) => new Trajck(trackObject)));
             });
         });
     }
