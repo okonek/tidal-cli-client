@@ -8,9 +8,11 @@ Available also as download from npm: https://www.npmjs.com/package/tidal-cli-cli
 You can also install it from AUR: https://aur.archlinux.org/packages/tidal-cli-client/
 
 ## Donations
-If you like this app and you want to help me with the development, you can donate me some Bitcoins, so I can buy more RAM for my Chrome.
+If you like this app and you want to help me with the development, you can donate me some money, so I can buy more RAM for my Chrome.
 
-I'm young passionated JS developer and this app is a big success for me. I would appreciate every donation.
+I'm 14 years old passionated JS developer and this app is a big success for me. I would appreciate every donation.
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](YOUR_EMAIL_CODE)
 
 Here is my Bitcoin address: `1FJqNsijJpctJwsFB4LPhf7KEKNYVb1Mcd`
 
