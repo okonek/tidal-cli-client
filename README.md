@@ -19,10 +19,8 @@ Here is my Bitcoin address: `1FJqNsijJpctJwsFB4LPhf7KEKNYVb1Mcd`
 ![My Bitcoin address QR code](https://user-images.githubusercontent.com/24360027/38766930-e4610220-3fc8-11e8-91e5-da55e1ae4811.png)
 
 
-## Update 1.4.6 notes
-Added advanced config file evaluation and ability to change the default paths of mpv and w3mImg.
-
-**After an update you have to remove the config file and login again, cause now it looks different.**
+## Update 1.5.0 notes
+For better issue tracking app now sends all errors to the sentry.io. None of your personal data is collected. When you have an error and want to resolve it, create a Github Issue and pass me the error eventId.
 
 ## Important dependencies
 You must have MPV and W3M installed. On some systems you'll also need to check, if you have got w3m-img, because it is not always installed directly with w3m.
