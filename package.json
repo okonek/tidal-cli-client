@@ -1,6 +1,6 @@
 {
   "name": "tidal-cli-client",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "You can now use Tidal on linux. With your loved CLI. <3",
   "main": "app/index.js",
   "scripts": {
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/okonek/tidal-cli-client#readme",
   "dependencies": {
     "blessed": "^0.1.81",
+    "clipboardy": "^1.2.3",
     "command-exists": "^1.2.2",
     "console-png": "^1.2.1",
     "figlet": "^1.2.0",

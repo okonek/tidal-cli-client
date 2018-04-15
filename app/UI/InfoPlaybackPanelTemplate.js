@@ -15,7 +15,7 @@ module.exports = class extends InfoPanelTemplate {
             style: {
                 bg: "blue",
                 focus: {
-                    bg: "red"
+                    bg: "#BD3017"
                 },
                 hover: {
                     bg: "red"

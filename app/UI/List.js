@@ -14,7 +14,7 @@ module.exports = class extends blessed.list {
                 },
                 focus: {
                     selected: {
-                        bg: "red"
+                        bg: "#BD3017"
                     }
                 }
             },
