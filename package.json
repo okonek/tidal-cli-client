@@ -40,7 +40,7 @@
     "node-key-sender": "^1.0.10",
     "node-mpv": "^1.4.2",
     "raven": "^2.5.0",
-    "tidalapi": "git+https://github.com/okonek/TidalAPI.git"
+    "tidalapi": "^0.2.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
