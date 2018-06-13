@@ -23,8 +23,8 @@ module.exports = class extends blessed.box {
             left: "5",
             width: "50%",
             fg: "green",
-            content: "If you liked this app and want to help me with the development, you can donate me in Bitcoin or with PayPal\n\n" +
-            "My Bitcoin adress is: 1FJqNsijJpctJwsFB4LPhf7KEKNYVb1Mcd\n\n" +
+            content: "If you liked this app and want to help me with the development, you can donate to me in Bitcoin or with PayPal\n\n" +
+            "My Bitcoin address is: 1FJqNsijJpctJwsFB4LPhf7KEKNYVb1Mcd\n\n" +
             "My PayPal donations link: https://goo.gl/m2HsD6"
         });
 
@@ -34,7 +34,7 @@ module.exports = class extends blessed.box {
             left: "5",
             top: this.donationInfo.getScreenLines().length * 5 + "5",
             fg: "blue",
-            content: "Copy Bitcoin adress",
+            content: "Copy Bitcoin address",
             mouse: true,
             keys: true,
             shrink: true,
@@ -55,7 +55,7 @@ module.exports = class extends blessed.box {
             left: 20,
             top: this.donationInfo.getScreenLines().length * 5 + "5",
             fg: "blue",
-            content: "Copy PayPal adress",
+            content: "Copy PayPal address",
             mouse: true,
             keys: true,
             shrink: true,
