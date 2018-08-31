@@ -1,0 +1,27 @@
+{
+  "STYLES": {
+    "TEXT_COLOR": "#ecf0f1",
+    "PRIMARY_COLOR": "#34495e",
+    "SECONDARY_COLOR": "#3498db",
+    "ERROR_COLOR": "#e74c3c"
+  },
+  "INPUT_BAR_ACTIONS": {
+    "PAUSE": "pause",
+    "RESUME": "resume",
+    "PLAYLISTS": "playlists",
+    "QUEUE": "queue",
+    "NEXT": "next",
+    "SKIP": "skip",
+    "SHUFFLE": "shuffle",
+    "QUIT": "quit",
+    "SEARCH": "search"
+  },
+  "SHORTCUTS": {
+    "PLAY_AS_NEXT_BUTTON": "n",
+    "PLAY_AS_LAST_BUTTON": "a",
+    "LIST_DOWN": "k",
+    "LIST_UP": "j",
+    "OPEN_INPUT_BAR": "f2",
+    "PLAY_NEXT_TRACK": "l"
+  }
+}

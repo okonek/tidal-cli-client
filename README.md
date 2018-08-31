@@ -1,11 +1,7 @@
-# tidal-cli-client 
+# tidal-cli-client
 [![Build Status](https://travis-ci.org/okonek/tidal-cli-client.svg?branch=master)](https://travis-ci.org/okonek/tidal-cli-client) [![BCH compliance](https://bettercodehub.com/edge/badge/okonek/tidal-cli-client?branch=master)](https://bettercodehub.com/)
 
-You can now use Tidal on linux. With your loved CLI. &lt;3
-
-Available also as download from npm: https://www.npmjs.com/package/tidal-cli-client
-
-You can also install it from AUR: https://aur.archlinux.org/packages/tidal-cli-client/
+tidal-cli-client is an open-source Tidal client for your linux terminal. You can finally listen to your favourite tracks without any web wrappers and flash. With your loved terminal. &lt;3
 
 ## Donations
 If you like this app and you want to help me with the development, you can donate me some money, so I can buy more RAM for my Chrome.
@@ -19,52 +15,76 @@ Here is my Bitcoin address: `1FJqNsijJpctJwsFB4LPhf7KEKNYVb1Mcd`
 ![My Bitcoin address QR code](https://user-images.githubusercontent.com/24360027/38766930-e4610220-3fc8-11e8-91e5-da55e1ae4811.png)
 
 
-## Update 1.5.0 notes
-For better issue tracking app now sends all errors to the sentry.io. None of your personal data is collected. When you have an error and want to resolve it, create a Github Issue and pass me the error eventId.
+## Update 2.0.0 notes
+The app is now completly rewritten. Most of the new features are:
+* More abstraction with components and cleaner code.
+* Better error handling.
+* Caching every api request.
+* Configurable shortcuts.
+* Unit tests
+* Playback queue control
 
 ## Important dependencies
+Installation sources:
+* It is prefered to install `tidal-cli-client` package from npm using command `sudo npm -g i tidal-cli-client@latest`. After installation you can run app from anywhere using command `tidal-cli`.
+
+* If you don't want to use npm installation you can clone this repo. Then you install other dependencies with `npm install` and run with `npm run app`.  
+
 You must have MPV and W3M installed. On some systems you'll also need to check, if you have got w3m-img, because it is not always installed directly with w3m.
 
-If the app throws an error that you haven't got them installed, it means it couldn't find the path of them. You can change the default path in which the app looks for dependencies by adding it to the config file in the `~/.tidalConfig.js`.
+## Usage instructions
+When you open app for the first time you can see a form. Input username (first) and password (second) to the boxes and submit. Then it loads the main app.
 
-Install other dependencies with `npm install` and run with `npm run app`. 
+To change focus from one item to another, press `tab`.
 
-You can also install `tidal-cli-client` from npm. Install it using command `sudo npm -g i tidal-cli-client@latest`. After installation you can run app from anywhere using command `tidal-cli`.
+### Action bar
+On the bottom of the app there is a green bar. When you press `:` it automatically focuses itself. Most of the navigation in the app is based on this text input. The list of commands is as follows:
+
+| Command     | Description                                                           | Example               |
+|-------------|-----------------------------------------------------------------------|-----------------------|
+| `search`    | Searches for a query specified after space                            | `search Led Zeppelin` |
+| `queue`     | Opens tracks queue panel, where you can view and edit playback queue  | `queue`               |
+| `pause`     | Pauses playback                                                       | `pause`               |
+| `resume`    | Resumes playback                                                      | `resume`              |
+| `skip`      | Skips a number of tracks in queue specified after space               | `skip 3`              |
+| `next`      | Works as `skip 1`                                                     | `resume`              |
+| `shuffle`   | Shuffles a tracks queue randomly                                      | `shuffle`             |
+| `playlists` | Opens user playlists panel where you can view and play your playlists | `playlists`           |
+| `quit`      | Quits from the app                                                    | `quit`                |
+
+### Shortcuts
+You can press these keys at any point and they'll do their thing.
+
+| Shortcut | Description                                                                                    |
+|----------|------------------------------------------------------------------------------------------------|
+| `F2`     | Opens actions input bar and automatically enters `search `. Then you can only enter your query |
+| `n`      | When focused on the list item or playback button adds focused element to the queue as next     |
+| `a`      | When focused on the list item or playback button adds focused element to the queue as last     |
+| `l`      | Play next track from queue. Works as `next`                                                    |
+| `j`      | When focused on the list, goes up                                                              |
+| `k`      | When focused on the list, goes down                                                            |
+| `w`      | When on the playback queue list, moves selected item up in queue                               |
+| `s`      | When on the playback queue list, moves selected item down in queue                             |
 
 ## Config file
-The apps config file is located in `~/.tidalConfig.js`. If sign in again again, you have to remove it. 
+The apps config file is located in `~/.config/tidal-cli-client/app.json`. You can configure your shortcuts from there. 
 
-You can edit your login creditnails here or change the default path of one of the dependencies by simply adding it to the list. 
+* `STYLES` object contains all of apps **colors** are located. You can customize them as you like with HEX color codes.
 
-## Usage instructions
-When you open app for the first time you can see a form. Input username (first) and password (second) to the boxes and submit. Then it loads the main app. 
+* `INPUT_BAR_ACTION` object contains all [**action bar**](#action-bar) actions are stored. You can edit their values to fit your preference.
 
-To change focus from one item to another in the artist panel, album panel or playlist panel, press `tab`. The focused item is colored red.
+* `SHORTCUTS` object contains all of apps [**shortcuts**](#shortcuts) which you can customize as you wish.
+> Shortcut naming for *Ctrl-(key)* is *C-(key)*, for function keys it's *f(key)*
 
-To close this app simply press escape.
+Your login credentials are stored in `~/.config/tidal-cli-client/credentials.json`. You can edit this file if you want to.
 
-### Search
-To search for a track, press `:` and enter `search`. Then type in `track`, `artist` or `album`, depending on what do you want to search for. Press enter again and then input your query and confirm with enter.
+* `USERNAME` is your username
 
-### Playlists
-To list all of your playlists press `Control-P`. I'll show you a list. Select the playlist you want with enter and it'll show you its details.
+* `PASSWORD` is your password
 
-### Playback control
-To pause the playback press `Control-S`. To start press it again. 
+* `STREAM_QUALITY` is TIDAL's stream quality, either `LOW`, `HIGH` or `LOSSLESS`.
 
-To play a song select it on list using enter (mouse not working yet). To add it to the end of the queue press `a` on it, to add it as next to the queue, press `n`.
+## For developers
+If you want to help me with the development, create a fork on Github and clone it to your machine.
 
-When playing, if you want to skip to the next song press `:` and then type `next`. If you want to skip for example four songs in the queue, press `:`, type `skip`, press enter and then type the number of songs you want to skip, in this case `4` and press enter.
-
-
-
-![Signin form in tidal-cli](https://user-images.githubusercontent.com/24360027/34915577-60560934-f929-11e7-80d0-2282680f09c5.png)
-
-![Searching for artist in tidal-cli](https://user-images.githubusercontent.com/24360027/34915576-60372c3a-f929-11e7-964d-f98fcc951926.png)
-
-![Artist panel in tidal-cli](https://user-images.githubusercontent.com/24360027/34915622-de49b8e0-f929-11e7-9960-e626405d8e71.png)
-
-![Searching for track in tidal-cli](https://user-images.githubusercontent.com/24360027/34915577-60560934-f929-11e7-80d0-2282680f09c5.png)
-
-![Tracks list in tidal-cli](https://user-images.githubusercontent.com/24360027/34915580-60ca4a1a-f929-11e7-9073-5860fcb84a86.png)
-
+Call `npm install`. After the work call `npm run test` to check for any errors and the you can create a PR.

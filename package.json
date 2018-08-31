@@ -1,11 +1,14 @@
 {
   "name": "tidal-cli-client",
-  "version": "1.5.1",
+  "version": "2.0.0",
   "description": "You can now use Tidal on linux. With your loved CLI. <3",
   "main": "app/index.js",
   "scripts": {
     "app": "node app/index.js",
-    "test": "mocha tests --recursive"
+    "test": "mocha tests --recursive --timeout 5000",
+    "lint": "eslint app --fix",
+    "predeploy": "npm run lint && npm run test",
+    "deploy": "npm publish"
   },
   "repository": {
     "type": "git",
@@ -29,21 +32,26 @@
   "dependencies": {
     "blessed": "^0.1.81",
     "clipboardy": "^1.2.3",
-    "command-exists": "^1.2.2",
-    "console-png": "^1.2.1",
-    "figlet": "^1.2.0",
-    "http": "0.0.0",
-    "https": "^1.0.0",
-    "image-size": "^0.6.2",
-    "inquirer": "^3.3.0",
-    "keypress": "^0.2.1",
-    "node-key-sender": "^1.0.10",
+    "fs-extra": "^7.0.0",
+    "image-size": "^0.6.3",
+    "keys-diff": "^1.0.7",
+    "mkdirp": "^0.5.1",
+    "node-cache-promise": "^1.0.0",
+    "node-fetch": "^2.2.0",
     "node-mpv": "^1.4.2",
     "raven": "^2.5.0",
-    "tidalapi": "git+https://github.com/okonek/TidalAPI.git"
+    "redux": "^4.0.0",
+    "tidal-api-wrapper-okonek": "^1.8.4",
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^9.0.0",
     "chai": "^4.1.2",
-    "mocha": "^3.5.3"
+    "chai-fs": "^2.0.0",
+    "eslint": "^5.4.0",
+    "mocha": "^5.2.0",
+    "then-request": "^6.0.0"
   }
 }
