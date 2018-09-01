@@ -8,7 +8,8 @@ module.exports = class extends BaseElement {
 	}
 
 	getSelectedValue() {
-		return this.children.find(x => x.element.checked).element.text;
+		const checked = this.children.find(x => x.element.checked);
+		return checked ? checked.element.text : undefined;
 	}
 
 	async run() {

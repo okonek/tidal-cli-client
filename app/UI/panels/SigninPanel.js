@@ -180,6 +180,7 @@ module.exports = class extends Activity {
 
 		await this.showElements(this.children);
 
+		this.qualityRadioButtons[0].element.check();
 		this.startInput();
 	}
 };

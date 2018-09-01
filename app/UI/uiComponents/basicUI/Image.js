@@ -34,12 +34,13 @@ module.exports = class extends BaseElement {
 			height = (this.options.pixelRatio.th * masterParent.height * this.options.height) / this.options.pixelRatio.th / proportions;
 		}
 
+
 		this.element = blessed.image(Object.assign({}, this.options, {
 			type: "overlay",
 			width,
 			height,
 			file: this.imageSrc,
-			search: false
+			search: true
 		}));
 	}
 };
