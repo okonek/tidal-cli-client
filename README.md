@@ -24,13 +24,19 @@ The app is now completly rewritten. Most of the new features are:
 * Unit tests
 * Playback queue control
 
-## Important dependencies
+## Installation
 Installation sources:
-* It is prefered to install `tidal-cli-client` package from npm using command `sudo npm -g i tidal-cli-client@latest`. After installation you can run app from anywhere using command `tidal-cli`.
+* Arch Linux:
 
-* If you don't want to use npm installation you can clone this repo. Then you install other dependencies with `npm install` and run with `npm run app`.  
+    * Install a package [tidal-cli-client-git](https://aur.archlinux.org/packages/tidal-cli-client-git/) from AUR.
+    
+* Other distros:
 
-You must have MPV and W3M installed. On some systems you'll also need to check, if you have got w3m-img, because it is not always installed directly with w3m.
+    * It is prefered to install `tidal-cli-client` package from npm using command `sudo npm -g i tidal-cli-client@latest`. After installation you can run app from anywhere using command `tidal-cli`.
+    
+    * If you don't want to use npm installation you can clone this repo. Then you install other dependencies with `npm install` and run with `npm run app`.
+    
+    You must have MPV and W3M installed. On some systems you'll also need to check, if you have got w3m-img, because it is not always installed directly with w3m.
 
 ## Usage instructions
 When you open app for the first time you can see a form. Input username (first) and password (second) to the boxes and submit. Then it loads the main app.
