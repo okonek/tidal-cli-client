@@ -17,6 +17,16 @@ module.exports = class extends BaseElement {
 
 		this.imageSrc = imageSrc;
 
+		if(!this.options.pixelRatio) {
+			this.element = blessed.text(Object.assign({}, this.options, {
+				width: (this.options.width * 100) + "%",
+				height: (this.options.height * 100) + "%",
+				content: "Images are not displayed.\nTo display images install w3m and w3m-img."
+			}));
+
+			return;
+		}
+
 		let width;
 		let height;
 
@@ -33,7 +43,6 @@ module.exports = class extends BaseElement {
 			width = (this.options.pixelRatio.th * masterParent.height * this.options.height) / this.options.pixelRatio.tw;
 			height = (this.options.pixelRatio.th * masterParent.height * this.options.height) / this.options.pixelRatio.th / proportions;
 		}
-
 
 		this.element = blessed.image(Object.assign({}, this.options, {
 			type: "overlay",

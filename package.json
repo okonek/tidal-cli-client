@@ -1,6 +1,6 @@
 {
   "name": "tidal-cli-client",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "You can now use Tidal on linux. With your loved CLI. <3",
   "main": "app/index.js",
   "scripts": {
@@ -41,6 +41,7 @@
     "node-mpv": "^1.4.2",
     "raven": "^2.5.0",
     "redux": "^4.0.0",
+    "shelljs": "^0.8.2",
     "tidal-api-wrapper-okonek": "^1.8.4",
     "valid-url": "^1.0.9"
   },
