@@ -1,6 +1,6 @@
 {
   "name": "tidal-cli-client",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "You can now use Tidal on linux. With your loved CLI. <3",
   "main": "app/index.js",
   "scripts": {
@@ -54,5 +54,12 @@
     "eslint": "^5.4.0",
     "mocha": "^5.2.0",
     "then-request": "^6.0.0"
+  },
+  "node_deb": {
+    "init": "none",
+    "dependencies": "mpv, w3m",
+    "entrypoints": {
+      "cli": "app/index.js"
+    }
   }
 }
