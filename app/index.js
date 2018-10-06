@@ -28,8 +28,14 @@ const startApp = () => {
 	const appConfiguration = new AppConfiguration();
 	appConfiguration.prepareConfigFile();
 
+	const appArguments = [];
+
+	if(process.argv.includes("--no-images")) {
+		appArguments.push("--no-images");
+	}
+
 	const MainScreen = require("./UI/MainScreen");
-	mainScreen = new MainScreen();
+	mainScreen = new MainScreen(appArguments);
 };
 
 if(!shell.which("mpv")) {

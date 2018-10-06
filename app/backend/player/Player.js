@@ -3,8 +3,8 @@ const MPV = require("node-mpv");
 module.exports = class {
 	constructor() {
 		let init_json = {
-                	"audio_only": true
-                }
+			"audio_only": true
+		};
 		this.mpv = new MPV(init_json);
 		this.playing = false;
 	}
