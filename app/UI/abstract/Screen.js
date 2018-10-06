@@ -11,13 +11,14 @@ module.exports = class Screen extends BaseElement {
 		});
 	}
 
-	getScreenPixelRatio() {
+	getScreenPixelRatio(appArguments) {
 		return new Promise((resolve, reject) => {
 			const img = blessed.image({
 				parent: this.screen,
 				type: "overlay"
 			});
-			if(!(Screen.findFile("/usr", "w3mimgdisplay") || Screen.findFile("/lib", "w3mimgdisplay") || Screen.findFile("/bin", "w3mimgdisplay"))) {
+
+			if(!(Screen.findFile("/usr", "w3mimgdisplay") || Screen.findFile("/lib", "w3mimgdisplay") || Screen.findFile("/bin", "w3mimgdisplay")) || appArguments.includes("--no-images")) {
 				resolve(undefined);
 			}
 

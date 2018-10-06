@@ -10,13 +10,13 @@ const SigninPanel = require("./panels/SigninPanel");
 const childProcess = require("child_process");
 
 module.exports = class extends Screen {
-	constructor() {
+	constructor(appArguments) {
 		super();
 		this.store = createStore(reducers);
 		this.tidalApi = new TidalApi();
 		this.tempManager = new TempManager("/tmp/tidal-cli-client");
 
-		this.getScreenPixelRatio().then(values => {
+		this.getScreenPixelRatio(appArguments).then(values => {
 			this.pixelRatio = values;
 			this.store.dispatch(actions.basic.setTempManager(this.tempManager));
 			this.store.dispatch(actions.ui.setPixelRatio(this.pixelRatio));
