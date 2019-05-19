@@ -3,6 +3,9 @@
 
 tidal-cli-client is an open-source Tidal client for your linux terminal. You can finally listen to your favourite tracks without any web wrappers and flash. With your loved terminal. &lt;3
 
+## Fiverr
+If You'd like me to create a website for you, check out my account on [Fiverr](https://www.fiverr.com/share/Lz4qp) :)
+
 ## Donations
 If you like this app and you want to help me with the development, you can donate me some money, so I can buy more RAM for my Chrome.
 
